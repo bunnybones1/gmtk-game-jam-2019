@@ -1,6 +1,7 @@
-# Game Kit A #
+# Game Makers Toolkit Game Jam 2019 #
 
-This is a specialized starter pack/sandbox for creating a WebGL game or experiment using Threejs and Box2D.
+The theme is "Only One".
+The game is about helping your keyboard keys making their escape, to their peril.
 
 ## Setup ##
 
