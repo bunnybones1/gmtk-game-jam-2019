@@ -167,7 +167,7 @@ function createGeometry(
       const shape = fixture.m_shape
       const worldVerts = getShapeWorldVerts(shape, body)
       if (worldVerts) {
-        if (offset.x !== 0 && offset.y !== 0) {
+        if (offset.x !== 0 || offset.y !== 0) {
           for (const vert of worldVerts) {
             vert.SelfSub(offset)
           }

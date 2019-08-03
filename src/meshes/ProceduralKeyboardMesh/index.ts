@@ -132,11 +132,12 @@ const board: KeyInfo[][] = [
   ]
 ]
 
+const width = 0.37
+const height = 0.01
+const depth = 0.13
 export default class ProceduralKeyboardMesh extends Mesh {
+  private buttonsByEventCode: Map<string, Mesh>
   constructor() {
-    const width = 0.37
-    const height = 0.01
-    const depth = 0.13
     super(
       getChamferedBoxGeometry(width, height, depth),
       materialLibrary.keyboardPlastic
@@ -178,26 +179,14 @@ export default class ProceduralKeyboardMesh extends Mesh {
       }
       cursorY += (KEY_SCALE + spacing) * 0.5
     }
-
-    const keyStates = new Map<string, boolean>()
-
-    function changeKey(ev: KeyboardEvent, down: boolean) {
-      const eventCode = ev.code
-      if (down) {
-        console.log(eventCode)
-      }
-      ev.preventDefault()
-      keyStates.set(eventCode, down)
-      if (buttonsByEventCode.has(eventCode)) {
-        buttonsByEventCode.get(eventCode)!.position.y = down
-          ? height - 0.005
-          : height
-      }
-    }
-
-    window.addEventListener('keydown', ev => changeKey(ev, true))
-    window.addEventListener('keyup', ev => changeKey(ev, false))
-
+    this.buttonsByEventCode = buttonsByEventCode
     this.position.y += height
+  }
+  onKeyCodeEvent = (eventCode: string, down: boolean) => {
+    if (this.buttonsByEventCode.has(eventCode)) {
+      this.buttonsByEventCode.get(eventCode)!.position.y = down
+        ? height - 0.005
+        : height
+    }
   }
 }
