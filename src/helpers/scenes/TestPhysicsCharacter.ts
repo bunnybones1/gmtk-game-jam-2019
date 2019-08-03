@@ -107,7 +107,8 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
     )
     this.myB2World.SetContactListener(characterContactListener)
 
-    const character = this.createBox(0, 0.05, 0.004, 0.0035, false, 0.5, 1.5)
+    const character = this.createBox(0, 0.05, 0.004, 0.0035, false, 1.5, 1.5)
+    character.m_linearDamping = 1
     this.torsoFixture = character.m_fixtureList!
     this.torsoShape = this.torsoFixture.m_shape as PolygonShape
     const bodyZoneFixtureDef = new FixtureDef()
@@ -178,7 +179,7 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
         if (vel.y < 0) {
           char.SetLinearVelocity(new Vec2(runSpeed, 0)) //stop if falling
         }
-        char.ApplyForceToCenter(new Vec2(0.01, 0)) // run right
+        char.ApplyForceToCenter(new Vec2(0.025, 0)) // run right
       }
       if (!this.tucked && this.characterContacts.has(this.bellyFixture)) {
         char.ApplyLinearImpulseToCenter(new Vec2(0, 0.0015), true)
@@ -209,7 +210,7 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
         this.autoJumpCooldown = 2
         const vel = char.GetLinearVelocity()
         char.SetLinearVelocity(
-          new Vec2(vel.x, 100 * clamp(this.jumpEnergy * 0.05 + 0.01, 0, 0.03))
+          new Vec2(vel.x, 100 * clamp(this.jumpEnergy * 0.1 + 0.01, 0, 0.04))
         )
         this.jumpEnergy = 0
       }
