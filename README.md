@@ -1,6 +1,7 @@
 # Game Makers Toolkit Game Jam 2019 #
 
 The theme is "Only One".
+
 The game is about helping your keyboard keys making their escape, to their peril.
 
 ## Setup ##
