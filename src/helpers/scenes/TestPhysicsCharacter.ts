@@ -82,8 +82,6 @@ const safeAngleRange = 0.2
 const safeAngleMin = Math.PI * -safeAngleRange
 const safeAngleMax = Math.PI * safeAngleRange
 const dangerAngleRange = 0.45
-const dangerAngleMin = Math.PI * -dangerAngleRange
-const dangerAngleMax = Math.PI * dangerAngleRange
 
 export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
   private autoJump = false
