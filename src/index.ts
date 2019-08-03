@@ -5,6 +5,7 @@ import { BaseTestScene } from './helpers/scenes/BaseTestScene'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
+import TestPhysicsCharacterScene from './helpers/scenes/TestPhysicsCharacter'
 import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
 import renderer from './renderer'
 import { timeUniform } from './uniforms'
@@ -25,6 +26,7 @@ const testClasses: { [K: string]: new () => BaseTestScene } = {
   lighting: TestLightingScene,
   physics: TestPhysicsScene,
   physicsPNG: TestPhysicsPNGScene,
+  physicsCharacter: TestPhysicsCharacterScene,
   keyboard: TestKeyboardInputScene
 }
 
