@@ -1,8 +1,8 @@
-import {
-  WebGLRenderer
-} from 'three'
+import { WebGLRenderer } from 'three'
 import { Box2DPreviewMesh } from '~/meshes/Box2DPreviewMesh'
+import { rand } from '~/utils/math'
 import {
+  Body,
   BodyDef,
   BodyType,
   CircleShape,
@@ -17,6 +17,7 @@ import { BaseTestScene } from './BaseTestScene'
 export default class TestPhysicsScene extends BaseTestScene {
   private b2Preview: Box2DPreviewMesh
   private myB2World: World
+  private circleBodies: Body[] = []
   constructor() {
     super()
     const myB2World = new World(new Vec2(0, -9.8))
@@ -36,23 +37,38 @@ export default class TestPhysicsScene extends BaseTestScene {
     const b2Preview = new Box2DPreviewMesh(myB2World)
     this.scene.add(b2Preview)
 
+    this.myB2World = myB2World
+    this.b2Preview = b2Preview
+
+    for (let i = 0; i < 20; i++) {
+      this.createCircle()
+    }
+  }
+  createCircle() {
     const circle = new CircleShape(0.05)
-    circle.m_p.Set(0, 0.6)
+    const bodyDef = new BodyDef()
+    const fixtureDef = new FixtureDef()
     fixtureDef.shape = circle
     fixtureDef.density = 1
     fixtureDef.friction = 0.2
     fixtureDef.restitution = 0.7
     bodyDef.type = BodyType.dynamicBody
-    const fingerBody = myB2World.CreateBody(bodyDef)
-    fingerBody.CreateFixture(fixtureDef)
-
-    this.myB2World = myB2World
-    this.b2Preview = b2Preview
+    const circleBody = this.myB2World.CreateBody(bodyDef)
+    circleBody.SetPositionXY(rand(-0.1, 0.1), 0.6 + rand(-0.1, 0.1))
+    circleBody.CreateFixture(fixtureDef)
+    this.circleBodies.push(circleBody)
   }
   update(dt: number) {
     super.update(dt)
     this.myB2World.Step(dt, 4, 4)
     this.b2Preview.update(dt)
+    for (const circleBody of this.circleBodies) {
+      const p = circleBody.GetPosition()
+      if (p.y < -1) {
+        circleBody.SetLinearVelocity(new Vec2(0.0, 0.0))
+        circleBody.SetPositionXY(rand(-0.1, 0.1), 0.6 + rand(-0.1, 0.1))
+      }
+    }
   }
   render(renderer: WebGLRenderer, dt: number) {
     super.render(renderer, dt)
