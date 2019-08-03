@@ -33,11 +33,12 @@ export default class TestPhysicsPNGScene extends TestPhysicsScene {
         if (build && accumilator > 0) {
           const iCol = i % width
           const iRow = Math.floor(i / width)
-          this.createStaticBox(
+          this.createBox(
             (iCol + offsetX - accumilator * 0.5) * __pixelSizeMeters,
             (-iRow + offsetY) * __pixelSizeMeters,
             accumilator * __pixelSizeMeters * 0.5,
-            __pixelSizeMeters * 0.5
+            __pixelSizeMeters * 0.5,
+            true
           )
           accumilator = 0
         }

@@ -33,7 +33,7 @@ export default class TestPhysicsScene extends BaseTestScene {
     }
 
     if (testBox) {
-      this.createStaticBox(0, 0, 0.3, 0.3)
+      this.createBox(0, 0, 0.05, 0.05, true)
     }
   }
   update(dt: number) {
@@ -54,16 +54,17 @@ export default class TestPhysicsScene extends BaseTestScene {
   render(renderer: WebGLRenderer, dt: number) {
     super.render(renderer, dt)
   }
-  protected createStaticBox(
+  protected createBox(
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    staticBody = false
   ) {
     const bodyDef = new BodyDef()
     const fixtureDef = new FixtureDef()
     bodyDef.fixedRotation = true
-    bodyDef.type = BodyType.staticBody
+    bodyDef.type = staticBody ? BodyType.staticBody : BodyType.dynamicBody
     const borderBody = this.myB2World.CreateBody(bodyDef)
     borderBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
     fixtureDef.friction = 0.1

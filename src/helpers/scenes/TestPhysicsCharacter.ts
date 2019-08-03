@@ -4,6 +4,6 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
   private character: Body
   constructor() {
     super('test-run', 0)
-    const character = this.createCircle(0, 0.1, 0.006)
+    const character = this.createBox(0, 0.05, 0.005, 0.004)
   }
 }
