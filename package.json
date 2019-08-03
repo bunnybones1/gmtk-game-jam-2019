@@ -1,10 +1,10 @@
 {
-  "name": "horizon-game-kit-a",
+  "name": "gmtk-game-jam-2019",
   "version": "0.0.0",
   "license": "MIT",
   "private": false,
-  "description": "A life simulation/game",
-  "repository": "https://github.com/horizon-games/game-kit-a",
+  "description": "Only One",
+  "repository": "https://github.com/bunnybones/gmtk-game-jam-2019",
   "scripts": {
     "start": "yarn dev",
     "dev": "webpack-dev-server --mode development --progress --color --config config/webpack/webpack.config.local.js",
