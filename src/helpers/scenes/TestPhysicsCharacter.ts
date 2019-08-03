@@ -120,7 +120,7 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
     bodyZoneFixtureDef.userData = { type: 'legs' }
     this.legsFixture = character.CreateFixture(bodyZoneFixtureDef)
     const bellyShape = new CircleShape(0.0025 * __phyicsScale)
-    bellyShape.m_p.Set(0, -0.006 * __phyicsScale)
+    bellyShape.m_p.Set(0, -0.008 * __phyicsScale)
     bodyZoneFixtureDef.shape = bellyShape
     bodyZoneFixtureDef.userData = { type: 'belly', enabled: true }
     this.bellyFixture = character.CreateFixture(bodyZoneFixtureDef)
@@ -130,7 +130,6 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
     bodyZoneFixtureDef.userData = { type: 'arms' }
     this.armsFixture = character.CreateFixture(bodyZoneFixtureDef)
     character.SetAngularDamping(5)
-    character.SetAngle(Math.PI)
     this.character = character
     this.characterContacts = characterContactListener.contactPairs
 
@@ -210,19 +209,19 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
       ) {
         this.jump = false
         this.autoJumpCooldown = 2
-        char.ApplyLinearImpulseToCenter(
-          new Vec2(0, clamp(this.jumpEnergy * 0.05 + 0.01, 0, 0.03)),
-          true
+        const vel = char.GetLinearVelocity()
+        char.SetLinearVelocity(
+          new Vec2(vel.x, 100 * clamp(this.jumpEnergy * 0.05 + 0.01, 0, 0.03))
         )
         this.jumpEnergy = 0
       }
-    } else {
-      const angleDiff = radiansDifference(char.GetAngle(), 0)
-      if (angleDiff < safeAngleMin) {
-        char.ApplyAngularImpulse(0.00001)
-      } else if (angleDiff > safeAngleMax) {
-        char.ApplyAngularImpulse(-0.00001)
-      }
+    }
+
+    const angleDiff = radiansDifference(char.GetAngle(), 0)
+    if (angleDiff < safeAngleMin) {
+      char.ApplyAngularImpulse(0.00001)
+    } else if (angleDiff > safeAngleMax) {
+      char.ApplyAngularImpulse(-0.00001)
     }
     if (char.GetPosition().y < -1) {
       char.SetLinearVelocity(new Vec2(0.0, 0.0))
