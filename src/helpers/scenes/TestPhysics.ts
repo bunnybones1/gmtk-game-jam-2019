@@ -60,7 +60,8 @@ export default class TestPhysicsScene extends BaseTestScene {
     width: number,
     height: number,
     staticBody = false,
-    friction = 0.1
+    friction = 0.1,
+    density = 1
   ) {
     const bodyDef = new BodyDef()
     const fixtureDef = new FixtureDef()
@@ -70,7 +71,7 @@ export default class TestPhysicsScene extends BaseTestScene {
     boxBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
     fixtureDef.friction = friction
     fixtureDef.restitution = 0.7
-    fixtureDef.density = 1
+    fixtureDef.density = density
     const templateRect = new PolygonShape().SetAsBox(
       width * __phyicsScale,
       height * __phyicsScale
