@@ -267,7 +267,9 @@ export default class ProceduralKeyboardMesh extends Mesh {
 
     const keyStates = new Map<number, boolean>()
 
-    function changeKey(keyCode: number, down: boolean) {
+    function changeKey(ev: KeyboardEvent, down: boolean) {
+      const keyCode = ev.keyCode
+      ev.preventDefault()
       keyStates.set(keyCode, down)
       if (buttonsByKeyCode.has(keyCode)) {
         buttonsByKeyCode.get(keyCode)!.position.y = down
@@ -276,8 +278,8 @@ export default class ProceduralKeyboardMesh extends Mesh {
       }
     }
 
-    window.addEventListener('keydown', ev => changeKey(ev.keyCode, true))
-    window.addEventListener('keyup', ev => changeKey(ev.keyCode, false))
+    window.addEventListener('keydown', ev => changeKey(ev, true))
+    window.addEventListener('keyup', ev => changeKey(ev, false))
 
     this.position.y += height
   }
