@@ -16,8 +16,8 @@ import {
 import { BaseTestScene } from './BaseTestScene'
 
 export default class TestPhysicsScene extends BaseTestScene {
-  private b2Preview: Box2DPreviewMesh
-  private myB2World: World
+  protected b2Preview: Box2DPreviewMesh
+  protected myB2World: World
   private circleBodies: Body[] = []
   constructor(testBox = true, totalBalls = 20) {
     super()
@@ -46,7 +46,7 @@ export default class TestPhysicsScene extends BaseTestScene {
         circleBody.SetLinearVelocity(new Vec2(0.0, 0.0))
         circleBody.SetPositionXY(
           rand(-0.1, 0.1) * __phyicsScale,
-          0.6 + rand(-0.1, 0.1) * __phyicsScale
+          (0.1 + rand(-0.02, 0.02)) * __phyicsScale
         )
       }
     }
@@ -59,22 +59,24 @@ export default class TestPhysicsScene extends BaseTestScene {
     y: number,
     width: number,
     height: number,
-    staticBody = false
+    staticBody = false,
+    friction = 0.1
   ) {
     const bodyDef = new BodyDef()
     const fixtureDef = new FixtureDef()
     bodyDef.fixedRotation = true
     bodyDef.type = staticBody ? BodyType.staticBody : BodyType.dynamicBody
-    const borderBody = this.myB2World.CreateBody(bodyDef)
-    borderBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
-    fixtureDef.friction = 0.1
+    const boxBody = this.myB2World.CreateBody(bodyDef)
+    boxBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
+    fixtureDef.friction = friction
     fixtureDef.restitution = 0.7
     const templateRect = new PolygonShape().SetAsBox(
       width * __phyicsScale,
       height * __phyicsScale
     )
     fixtureDef.shape = templateRect
-    borderBody.CreateFixture(fixtureDef)
+    boxBody.CreateFixture(fixtureDef)
+    return boxBody
   }
   protected createCircle(x: number, y: number, radius: number) {
     const circle = new CircleShape(radius * __phyicsScale)
@@ -89,5 +91,6 @@ export default class TestPhysicsScene extends BaseTestScene {
     circleBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
     circleBody.CreateFixture(fixtureDef)
     this.circleBodies.push(circleBody)
+    return circleBody
   }
 }

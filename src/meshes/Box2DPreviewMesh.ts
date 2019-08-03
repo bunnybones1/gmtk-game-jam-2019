@@ -124,7 +124,11 @@ function getCircleShapeWorldVerts(circle: CircleShape, body: Body) {
   return worldVerts
 }
 
-function createGeometry(myB2World: World, debugColors: DebugColors) {
+function createGeometry(
+  myB2World: World,
+  debugColors: DebugColors,
+  offset: Vec2
+) {
   let fixtureVertsCount = 0
   let body = myB2World.m_bodyList
   //measure first
@@ -163,8 +167,16 @@ function createGeometry(myB2World: World, debugColors: DebugColors) {
       const shape = fixture.m_shape
       const worldVerts = getShapeWorldVerts(shape, body)
       if (worldVerts) {
+        if (offset.x !== 0 && offset.y !== 0) {
+          for (const vert of worldVerts) {
+            vert.SelfSub(offset)
+          }
+        }
+
         if (__debugViewScale !== 1) {
-          worldVerts.forEach(vert => vert.SelfMul(__debugViewScale))
+          for (const vert of worldVerts) {
+            vert.SelfMul(__debugViewScale)
+          }
         }
 
         const color = debugColors.getFixtureColor(fixture)
@@ -197,6 +209,7 @@ function createGeometry(myB2World: World, debugColors: DebugColors) {
 export class Box2DPreviewMesh extends Line {
   myB2World: World
   debugColors: DebugColors
+  offset: Vec2
   constructor(myB2World: World) {
     const debugColors = new DebugColors()
     super(
@@ -206,11 +219,16 @@ export class Box2DPreviewMesh extends Line {
     )
     this.debugColors = debugColors
     this.myB2World = myB2World
+    this.offset = new Vec2()
 
     this.renderOrder = 100000
   }
   update(dt: number) {
     this.geometry.dispose()
-    this.geometry = createGeometry(this.myB2World, this.debugColors)
+    this.geometry = createGeometry(
+      this.myB2World,
+      this.debugColors,
+      this.offset
+    )
   }
 }
