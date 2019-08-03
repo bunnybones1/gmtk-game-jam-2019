@@ -5,6 +5,7 @@ import { BaseTestScene } from './helpers/scenes/BaseTestScene'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
+import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
 import renderer from './renderer'
 import { timeUniform } from './uniforms'
 import { cameraShaker } from './utils/cameraShaker'
@@ -23,6 +24,7 @@ cameraShaker.camera.lookAt(new Vector3())
 const testClasses: { [K: string]: new () => BaseTestScene } = {
   lighting: TestLightingScene,
   physics: TestPhysicsScene,
+  physicsPNG: TestPhysicsPNGScene,
   keyboard: TestKeyboardInputScene
 }
 

@@ -18,22 +18,9 @@ export default class TestPhysicsScene extends BaseTestScene {
   private b2Preview: Box2DPreviewMesh
   private myB2World: World
   private circleBodies: Body[] = []
-  constructor() {
+  constructor(testBox = true) {
     super()
     const myB2World = new World(new Vec2(0, -9.8))
-
-    const bodyDef = new BodyDef()
-    const fixtureDef = new FixtureDef()
-
-    bodyDef.fixedRotation = true
-    bodyDef.type = BodyType.staticBody
-    const borderBody = myB2World.CreateBody(bodyDef)
-    fixtureDef.friction = 0.1
-    fixtureDef.restitution = 0.7
-    const templateRect = new PolygonShape().SetAsBox(0.3, 0.3)
-    fixtureDef.shape = templateRect
-    borderBody.CreateFixture(fixtureDef)
-
     const b2Preview = new Box2DPreviewMesh(myB2World)
     this.scene.add(b2Preview)
 
@@ -43,20 +30,10 @@ export default class TestPhysicsScene extends BaseTestScene {
     for (let i = 0; i < 20; i++) {
       this.createCircle()
     }
-  }
-  createCircle() {
-    const circle = new CircleShape(0.05)
-    const bodyDef = new BodyDef()
-    const fixtureDef = new FixtureDef()
-    fixtureDef.shape = circle
-    fixtureDef.density = 1
-    fixtureDef.friction = 0.2
-    fixtureDef.restitution = 0.7
-    bodyDef.type = BodyType.dynamicBody
-    const circleBody = this.myB2World.CreateBody(bodyDef)
-    circleBody.SetPositionXY(rand(-0.1, 0.1), 0.6 + rand(-0.1, 0.1))
-    circleBody.CreateFixture(fixtureDef)
-    this.circleBodies.push(circleBody)
+
+    if (testBox) {
+      this.createStaticBox(0, 0, 0.3, 0.3)
+    }
   }
   update(dt: number) {
     super.update(dt)
@@ -72,5 +49,37 @@ export default class TestPhysicsScene extends BaseTestScene {
   }
   render(renderer: WebGLRenderer, dt: number) {
     super.render(renderer, dt)
+  }
+  protected createStaticBox(
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ) {
+    const bodyDef = new BodyDef()
+    const fixtureDef = new FixtureDef()
+    bodyDef.fixedRotation = true
+    bodyDef.type = BodyType.staticBody
+    const borderBody = this.myB2World.CreateBody(bodyDef)
+    borderBody.SetPositionXY(x, y)
+    fixtureDef.friction = 0.1
+    fixtureDef.restitution = 0.7
+    const templateRect = new PolygonShape().SetAsBox(width, height)
+    fixtureDef.shape = templateRect
+    borderBody.CreateFixture(fixtureDef)
+  }
+  protected createCircle() {
+    const circle = new CircleShape(0.05)
+    const bodyDef = new BodyDef()
+    const fixtureDef = new FixtureDef()
+    fixtureDef.shape = circle
+    fixtureDef.density = 1
+    fixtureDef.friction = 0.2
+    fixtureDef.restitution = 0.7
+    bodyDef.type = BodyType.dynamicBody
+    const circleBody = this.myB2World.CreateBody(bodyDef)
+    circleBody.SetPositionXY(rand(-0.1, 0.1), 0.6 + rand(-0.1, 0.1))
+    circleBody.CreateFixture(fixtureDef)
+    this.circleBodies.push(circleBody)
   }
 }

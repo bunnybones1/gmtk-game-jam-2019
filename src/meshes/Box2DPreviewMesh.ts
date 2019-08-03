@@ -10,6 +10,7 @@ import {
 } from 'three'
 import device from '~/device'
 import { Box2DPreviewMaterial } from '~/materials/Box2DPreviewMaterial'
+import { getUrlFlag } from '~/utils/location'
 import { rand2 } from '~/utils/math'
 import {
   Body,
@@ -33,6 +34,7 @@ const __colorMatrixVisible = new Matrix4().compose(
 const __defaultQuaternion = new Quaternion()
 const __defaultColorScale = new Vector3(0.5, 0.5, 0.5)
 
+const __debugPolygonPhysics = getUrlFlag('debugPhysicsPolygon')
 class DebugColors {
   fixtureColors: Map<Fixture, Vector3>
   bodyMatrices: Map<Body, Matrix4>
@@ -67,7 +69,11 @@ class DebugColors {
 function getShapeWorldVerts(shape: Shape, body: Body) {
   switch (shape.m_type) {
     case ShapeType.e_polygonShape:
-      return getPolygonShapeWorldVerts(shape as PolygonShape, body)
+      if (__debugPolygonPhysics) {
+        return getPolygonShapeWorldVerts(shape as PolygonShape, body)
+      } else {
+        return undefined
+      }
     case ShapeType.e_circleShape:
       return getCircleShapeWorldVerts(shape as CircleShape, body)
     default:
@@ -79,7 +85,11 @@ function getShapeWorldVerts(shape: Shape, body: Body) {
 function getShapeWorldVertsCount(shape: Shape) {
   switch (shape.m_type) {
     case ShapeType.e_polygonShape:
-      return (shape as PolygonShape).m_vertices.length
+      if (__debugPolygonPhysics) {
+        return (shape as PolygonShape).m_vertices.length
+      } else {
+        return 0
+      }
     case ShapeType.e_circleShape:
       return __circleSegs
     default:
