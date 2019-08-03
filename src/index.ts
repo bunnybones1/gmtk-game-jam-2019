@@ -2,6 +2,7 @@ import { Clock, Color, Vector3 } from 'three'
 
 import { simpleTweener } from './animation/tweeners'
 import { BaseTestScene } from './helpers/scenes/BaseTestScene'
+import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
 import renderer from './renderer'
@@ -21,7 +22,8 @@ cameraShaker.camera.lookAt(new Vector3())
 
 const testClasses: { [K: string]: new () => BaseTestScene } = {
   lighting: TestLightingScene,
-  physics: TestPhysicsScene
+  physics: TestPhysicsScene,
+  keyboard: TestKeyboardInputScene
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene

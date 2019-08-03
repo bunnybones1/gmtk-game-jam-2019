@@ -15,7 +15,7 @@ import { addPrettyLights } from '../utils/lights'
 import { BaseTestScene } from './BaseTestScene'
 
 export default class TestLightingScene extends BaseTestScene {
-  constructor() {
+  constructor(testShapes = true) {
     super()
     addPrettyLights(this.scene, this.bgColor)
     const fps = new FPSControls(this.camera as PerspectiveCamera)
@@ -38,22 +38,24 @@ export default class TestLightingScene extends BaseTestScene {
         new SphereBufferGeometry(radius, 32, 16),
         basicMaterial
       )
-      sphere.castShadow = true
-      sphere.receiveShadow = true
-      sphere.position.x = -unitSize * 0.5
-      sphere.position.y = radius
-      sphere.name = 'Sphere'
-      this.scene.add(sphere)
-      const box = new Mesh(
-        new BoxBufferGeometry(unitSize, unitSize, unitSize),
-        basicMaterial
-      )
-      box.castShadow = true
-      box.receiveShadow = true
-      box.position.x = unitSize * 0.5
-      box.position.y = radius
-      box.name = 'Cube'
-      this.scene.add(box)
+      if (testShapes) {
+        sphere.castShadow = true
+        sphere.receiveShadow = true
+        sphere.position.x = -unitSize * 0.5
+        sphere.position.y = radius
+        sphere.name = 'Sphere'
+        this.scene.add(sphere)
+        const box = new Mesh(
+          new BoxBufferGeometry(unitSize, unitSize, unitSize),
+          basicMaterial
+        )
+        box.castShadow = true
+        box.receiveShadow = true
+        box.position.x = unitSize * 0.5
+        box.position.y = radius
+        box.name = 'Cube'
+        this.scene.add(box)
+      }
     }
     init()
   }
