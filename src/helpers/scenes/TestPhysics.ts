@@ -38,7 +38,7 @@ export default class TestPhysicsScene extends BaseTestScene {
   }
   update(dt: number) {
     super.update(dt)
-    this.myB2World.Step(dt, 4, 4)
+    this.myB2World.Step(dt, 10, 4)
     this.b2Preview.update(dt)
     for (const circleBody of this.circleBodies) {
       const p = circleBody.GetPosition()
@@ -64,12 +64,13 @@ export default class TestPhysicsScene extends BaseTestScene {
   ) {
     const bodyDef = new BodyDef()
     const fixtureDef = new FixtureDef()
-    bodyDef.fixedRotation = true
+    bodyDef.fixedRotation = false
     bodyDef.type = staticBody ? BodyType.staticBody : BodyType.dynamicBody
     const boxBody = this.myB2World.CreateBody(bodyDef)
     boxBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
     fixtureDef.friction = friction
     fixtureDef.restitution = 0.7
+    fixtureDef.density = 1
     const templateRect = new PolygonShape().SetAsBox(
       width * __phyicsScale,
       height * __phyicsScale
