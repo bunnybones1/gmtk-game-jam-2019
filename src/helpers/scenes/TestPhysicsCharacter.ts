@@ -107,7 +107,7 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
     )
     this.myB2World.SetContactListener(characterContactListener)
 
-    const character = this.createBox(0, 0.05, 0.004, 0.0035, false, 1.5, 1.5)
+    const character = this.createBox(0, 0.05, 0.008, 0.007, false, 1.5, 1.5)
     character.m_linearDamping = 1
     this.torsoFixture = character.m_fixtureList!
     this.torsoShape = this.torsoFixture.m_shape as PolygonShape

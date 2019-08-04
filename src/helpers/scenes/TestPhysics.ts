@@ -33,7 +33,7 @@ export default class TestPhysicsScene extends BaseTestScene {
     }
 
     if (testBox) {
-      this.createBox(0, 0, 0.05, 0.05, true)
+      this.createBox(0, 0, 0.1, 0.1, true)
     }
   }
   update(dt: number) {
@@ -73,8 +73,8 @@ export default class TestPhysicsScene extends BaseTestScene {
     fixtureDef.restitution = 0.7
     fixtureDef.density = density
     const templateRect = new PolygonShape().SetAsBox(
-      width * __phyicsScale,
-      height * __phyicsScale
+      width * 0.5 * __phyicsScale,
+      height * 0.5 * __phyicsScale
     )
     fixtureDef.shape = templateRect
     boxBody.CreateFixture(fixtureDef)
