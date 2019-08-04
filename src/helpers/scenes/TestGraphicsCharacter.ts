@@ -7,7 +7,7 @@ import TestGraphicsLevelScene from './TestGraphicsLevel'
 export default class TestGraphicsCharacterScene extends TestGraphicsLevelScene {
   protected character: Character
   constructor() {
-    super('test-layout', false)
+    super('test-layout', true)
     const character = new Character(this.myB2World)
     this.character = character
     this.scene.add(character.visuals)

@@ -14,5 +14,7 @@ export default class KeyButtonMesh extends Mesh {
       materialLibrary.keyboardPlasticKey
     )
     this.renderOrder = 200
+    this.castShadow = true
+    this.receiveShadow = true
   }
 }

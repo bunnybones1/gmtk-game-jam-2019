@@ -142,6 +142,9 @@ export default class ProceduralKeyboardMesh extends Mesh {
       getChamferedBoxGeometry(width, height, depth),
       materialLibrary.keyboardPlastic
     )
+    this.castShadow = true
+    this.receiveShadow = true
+    this.renderOrder = -2
     const buttonsByEventCode = new Map<KeyboardCodes, Mesh>()
 
     const spacing = 0.15 * KEY_SCALE
@@ -168,6 +171,9 @@ export default class ProceduralKeyboardMesh extends Mesh {
             buttonsByEventCode.set(key.eventCode, keyMesh)
           }
           this.add(keyMesh)
+          if (Math.random() > 0.5) {
+            keyMesh.visible = false
+          }
           keyMesh.position.set(cursorX, height - 0.0075, cursorY)
         }
         cursorX += (key.width + spacing) * 0.5

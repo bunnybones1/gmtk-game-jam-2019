@@ -59,7 +59,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
           const keyboardInput = new KeyboardInput()
           keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
           // keyboardMesh.scale.multiplyScalar(0.3)
-          keyboardMesh.position.set(-0, 0.162, 0)
+          keyboardMesh.position.set(-0, 0.162, -0.1)
           this.scene.add(keyboardMesh)
         }
       }

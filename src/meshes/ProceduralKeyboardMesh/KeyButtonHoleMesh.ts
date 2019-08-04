@@ -18,6 +18,7 @@ export default class KeyButtonHoleMesh extends Mesh {
       ),
       materialLibrary.keyboardPlasticHole
     )
-    this.renderOrder = 100
+    this.renderOrder = -1
+    this.receiveShadow = true
   }
 }
