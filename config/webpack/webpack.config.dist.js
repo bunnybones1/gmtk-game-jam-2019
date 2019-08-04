@@ -28,7 +28,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
         terserOptions: {
           compress: {
             keep_classnames: true,
@@ -131,6 +131,5 @@ module.exports = {
     plugins: [
       // new TsconfigPathsPlugin()
     ]
-  },
-  devtool: 'source-map'
+  }
 }

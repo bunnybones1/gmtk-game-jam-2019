@@ -43,7 +43,8 @@ export default class PNGLevel {
     onReady: () => void,
     onError?: () => void
   ) {
-    const img = new Image()
+		const img = new Image()
+		img.crossOrigin = "Anonymous"
     img.onload = imageEvent => {
       const blockRecipes = new BlocksRecipes()
       const canvas = document.createElement('canvas')
