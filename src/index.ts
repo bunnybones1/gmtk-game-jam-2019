@@ -35,7 +35,7 @@ const testClasses: { [K: string]: new () => BaseTestScene } = {
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene
-const testParam = getUrlParam('test') || 'lighting'
+const testParam = getUrlParam('test') || 'graphicsCharacter'
 if (testClasses.hasOwnProperty(testParam)) {
   TestClass = testClasses[testParam]
 }
