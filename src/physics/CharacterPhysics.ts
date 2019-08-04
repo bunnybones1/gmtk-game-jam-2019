@@ -133,7 +133,7 @@ export default class CharacterPhysics {
     bodyZoneFixtureDef.shape = bellyShape
     bodyZoneFixtureDef.userData = { type: 'belly', enabled: true }
     this.bellyFixture = body.CreateFixture(bodyZoneFixtureDef)
-    const armsShape = new CircleShape(0.0075 * __physicsScale)
+    const armsShape = new CircleShape(0.0085 * __physicsScale)
     armsShape.m_p.Set(0, 0.003 * __physicsScale)
     bodyZoneFixtureDef.shape = armsShape
     bodyZoneFixtureDef.userData = { type: 'arms' }
