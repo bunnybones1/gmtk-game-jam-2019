@@ -136,7 +136,7 @@ const width = 0.37
 const height = 0.01
 const depth = 0.13
 export default class ProceduralKeyboardMesh extends Mesh {
-  private buttonsByEventCode: Map<string, Mesh>
+  private buttonsByEventCode: Map<KeyboardCodes, Mesh>
   constructor() {
     super(
       getChamferedBoxGeometry(width, height, depth),
@@ -182,7 +182,7 @@ export default class ProceduralKeyboardMesh extends Mesh {
     this.buttonsByEventCode = buttonsByEventCode
     this.position.y += height
   }
-  onKeyCodeEvent = (eventCode: string, down: boolean) => {
+  onKeyCodeEvent = (eventCode: KeyboardCodes, down: boolean) => {
     if (this.buttonsByEventCode.has(eventCode)) {
       this.buttonsByEventCode.get(eventCode)!.position.y = down
         ? height - 0.005
