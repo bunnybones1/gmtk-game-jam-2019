@@ -38,22 +38,11 @@ renderer.autoClear = false
 const downsample = new NiceParameter(
   'pixel-down-sample',
   'Graphics Quality',
-  3,
-  1,
-  3,
+  6,
+  0,
+  10,
   v => v,
-  v => {
-    switch (v) {
-      case 1:
-        return 'Low'
-      case 2:
-        return 'Medium'
-      case 3:
-        return 'High'
-      default:
-        return 'High'
-    }
-  },
+  v => v + '',
   true,
   RESET_USER_SETTINGS_TO_DEFAULTS,
   1
@@ -61,7 +50,7 @@ const downsample = new NiceParameter(
 
 let __downsample = 1
 function updatePixelRatio() {
-  const pixelRatio = device.pixelRatio / (5 - __downsample)
+  const pixelRatio = device.pixelRatio / __downsample
   devicePixelRatioUniform.value = pixelRatio
   renderer.setPixelRatio(pixelRatio)
 }
