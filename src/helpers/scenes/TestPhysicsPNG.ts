@@ -1,91 +1,30 @@
+import PNGLevel from '~/PNGLevel'
 import { __pixelSizeMeters, __pixelSizePhysics } from '~/settings/physics'
 import { getUrlParam } from '~/utils/location'
 
 import TestPhysicsScene from './TestPhysics'
 
-class BlocksRecipes {
-  private blocks = new Map<number, Map<number, Map<number, number>>>()
-  register(x: number, y: number, width: number, height: number) {
-    if (!this.blocks.has(x)) {
-      this.blocks.set(x, new Map())
-    }
-    const blocksX = this.blocks.get(x)!
-    if (!blocksX.has(width)) {
-      blocksX.set(width, new Map())
-    }
-    const blocksWidth = blocksX.get(width)!
-    let merged = false
-    for (const [key, value] of blocksWidth.entries()) {
-      if (key + value === y) {
-        blocksWidth.set(key, value + 1)
-        merged = true
-      }
-    }
-    if (!merged) {
-      blocksWidth.set(y, height)
-    }
-  }
-  process(cb: (x: number, y: number, width: number, height: number) => void) {
-    this.blocks.forEach((blocksX, x) => {
-      blocksX.forEach((blocksWidth, width) => {
-        blocksWidth.forEach((height, y) => {
-          cb(x, y, width, height)
-        })
-      })
-    })
-  }
-}
-
 export default class TestPhysicsPNGScene extends TestPhysicsScene {
-  constructor(defaultLevel = 'test', totalBalls = 20) {
+  constructor(
+    defaultLevel = 'test',
+    totalBalls = 20,
+    onLevelReady: () => void
+  ) {
     super(false, totalBalls)
-    const img = new Image()
-    img.onload = imageEvent => {
-      const blockRecipes = new BlocksRecipes()
-      const canvas = document.createElement('canvas')
-      const width = img.width
-      const height = img.height
-      const offsetX = -16
-      const offsetY = 8
-      canvas.width = width
-      canvas.height = height
-      const context = canvas.getContext('2d')!
-      context.drawImage(img, 0, 0, width, height)
-      const data = context.getImageData(0, 0, canvas.width, canvas.height).data
-      let accumilator = 0
-      for (let i = 0; i < data.length; i++) {
-        let build = false
-        if (data[i * 4 + 3] > 128) {
-          accumilator++
-        } else {
-          build = true
-        }
-        if ((i + 1) % width === 0) {
-          build = true
-        }
-
-        if (build && accumilator > 0) {
-          const iCol = i % width
-          const iRow = Math.floor(i / width)
-          blockRecipes.register(iCol, iRow, accumilator, 1)
-          accumilator = 0
-        }
-      }
-      blockRecipes.process(
-        (x: number, y: number, width: number, height: number) => {
-          this.createBox(
-            (x + offsetX - width * 0.5) * __pixelSizeMeters,
-            (-y + offsetY - height * 0.5) * __pixelSizeMeters,
-            width * __pixelSizeMeters,
-            height * __pixelSizeMeters,
-            true
-          )
-        }
-      )
-    }
-    img.onerror = errorEvent => {
-      console.error('image not found: ' + errorEvent)
-    }
-    img.src = `/game/levels/${getUrlParam('level') || defaultLevel}.png`
+    const offsetX = -16
+    const offsetY = 8
+    new PNGLevel(
+      getUrlParam('level') || defaultLevel,
+      (x: number, y: number, width: number, height: number) => {
+        this.createBox(
+          (x + offsetX - width * 0.5) * __pixelSizeMeters,
+          (-y + offsetY - height * 0.5) * __pixelSizeMeters,
+          width * __pixelSizeMeters,
+          height * __pixelSizeMeters,
+          true
+        )
+      },
+      onLevelReady
+    )
   }
 }

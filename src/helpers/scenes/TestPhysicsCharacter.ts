@@ -100,7 +100,9 @@ export default class TestPhysicsCharacterScene extends TestPhysicsPNGScene {
   private armsFixture: Fixture
   private characterContacts: Map<Fixture, Fixture[]>
   constructor() {
-    super('test-run', 0)
+    super('test-run', 0, () => {
+      console.log('level ready')
+    })
 
     const characterContactListener = new CharacterContactListener(
       this.myB2World
