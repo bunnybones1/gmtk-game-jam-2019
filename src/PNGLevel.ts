@@ -79,6 +79,6 @@ export default class PNGLevel {
     img.onerror = errorEvent => {
       console.error('image not found: ' + errorEvent)
     }
-    img.src = `/game/levels/${baseName}.png`
+    img.src = `game/levels/${baseName}.png`
   }
 }
