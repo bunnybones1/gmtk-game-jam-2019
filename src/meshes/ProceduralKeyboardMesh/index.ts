@@ -142,7 +142,7 @@ export default class ProceduralKeyboardMesh extends Mesh {
       getChamferedBoxGeometry(width, height, depth),
       materialLibrary.keyboardPlastic
     )
-    const buttonsByEventCode = new Map<string, Mesh>()
+    const buttonsByEventCode = new Map<KeyboardCodes, Mesh>()
 
     const spacing = 0.45 * KEY_SCALE
     let cursorY = -depth * 0.5 + 0.01

@@ -1,6 +1,7 @@
 import PNGLevel from '~/PNGLevel'
 import { __pixelSizeMeters, __pixelSizePhysics } from '~/settings/physics'
 import { getUrlParam } from '~/utils/location'
+import { createPhysicBox } from '~/utils/physics'
 
 import TestPhysicsScene from './TestPhysics'
 
@@ -16,7 +17,8 @@ export default class TestPhysicsPNGScene extends TestPhysicsScene {
     new PNGLevel(
       getUrlParam('level') || defaultLevel,
       (x: number, y: number, width: number, height: number) => {
-        this.createBox(
+        createPhysicBox(
+          this.myB2World,
           (x + offsetX - width * 0.5) * __pixelSizeMeters,
           (-y + offsetY - height * 0.5) * __pixelSizeMeters,
           width * __pixelSizeMeters,

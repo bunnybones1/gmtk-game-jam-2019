@@ -212,14 +212,15 @@ export class Box2DPreviewMesh extends Line {
   offset: Vec2
   constructor(myB2World: World) {
     const debugColors = new DebugColors()
+    const offset = new Vec2()
     super(
-      createGeometry(myB2World, debugColors),
+      createGeometry(myB2World, debugColors, offset),
       new Box2DPreviewMaterial(),
       LineStrip
     )
     this.debugColors = debugColors
     this.myB2World = myB2World
-    this.offset = new Vec2()
+    this.offset = offset
 
     this.renderOrder = 100000
   }
