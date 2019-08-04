@@ -1,6 +1,6 @@
 import device from '~/device'
 import CharacterPhysics from '~/physics/CharacterPhysics'
-import { __phyicsScale } from '~/settings/physics'
+import { __physicsScale } from '~/settings/physics'
 
 import TestPhysicsPNGScene from './TestPhysicsPNG'
 

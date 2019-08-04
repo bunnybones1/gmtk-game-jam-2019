@@ -1,5 +1,7 @@
 import {
   BoxBufferGeometry,
+  DirectionalLight,
+  HemisphereLight,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
@@ -15,9 +17,13 @@ import { addPrettyLights } from '../utils/lights'
 import { BaseTestScene } from './BaseTestScene'
 
 export default class TestLightingScene extends BaseTestScene {
+  protected sunLight: DirectionalLight
+  protected ambientLight: HemisphereLight
   constructor(testShapes = true, testFloor = true) {
     super()
-    addPrettyLights(this.scene, this.bgColor)
+    const lights = addPrettyLights(this.scene, this.bgColor)
+    this.sunLight = lights.sunLight
+    this.ambientLight = lights.ambientLight
     const fps = new FPSControls(this.camera as PerspectiveCamera)
     if (getUrlFlag('fpsCam')) {
       fps.toggle(true)

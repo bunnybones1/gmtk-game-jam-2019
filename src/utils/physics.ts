@@ -1,4 +1,4 @@
-import { __phyicsScale, __pixelSizeMeters } from '~/settings/physics'
+import { __physicsScale, __pixelSizeMeters } from '~/settings/physics'
 import {
   BodyDef,
   BodyType,
@@ -43,13 +43,13 @@ export function createPhysicBox(
   bodyDef.fixedRotation = false
   bodyDef.type = staticBody ? BodyType.staticBody : BodyType.dynamicBody
   const boxBody = world.CreateBody(bodyDef)
-  boxBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
+  boxBody.SetPositionXY(x * __physicsScale, y * __physicsScale)
   fixtureDef.friction = friction
   fixtureDef.restitution = 0.7
   fixtureDef.density = density
   const templateRect = new PolygonShape().SetAsBox(
-    width * 0.5 * __phyicsScale,
-    height * 0.5 * __phyicsScale
+    width * 0.5 * __physicsScale,
+    height * 0.5 * __physicsScale
   )
   fixtureDef.shape = templateRect
   boxBody.CreateFixture(fixtureDef)
@@ -61,7 +61,7 @@ export function createPhysicsCircle(
   y: number,
   radius: number
 ) {
-  const circle = new CircleShape(radius * __phyicsScale)
+  const circle = new CircleShape(radius * __physicsScale)
   const bodyDef = new BodyDef()
   const fixtureDef = new FixtureDef()
   fixtureDef.shape = circle
@@ -70,7 +70,7 @@ export function createPhysicsCircle(
   fixtureDef.restitution = 0.7
   bodyDef.type = BodyType.dynamicBody
   const circleBody = world.CreateBody(bodyDef)
-  circleBody.SetPositionXY(x * __phyicsScale, y * __phyicsScale)
+  circleBody.SetPositionXY(x * __physicsScale, y * __physicsScale)
   circleBody.CreateFixture(fixtureDef)
   return circleBody
 }

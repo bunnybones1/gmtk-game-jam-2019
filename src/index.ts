@@ -2,6 +2,7 @@ import { Clock, Color, Vector3 } from 'three'
 
 import { simpleTweener } from './animation/tweeners'
 import { BaseTestScene } from './helpers/scenes/BaseTestScene'
+import TestGraphicsCharacterScene from './helpers/scenes/TestGraphicsCharacter'
 import TestGraphicsLevelScene from './helpers/scenes/TestGraphicsLevel'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
@@ -29,7 +30,8 @@ const testClasses: { [K: string]: new () => BaseTestScene } = {
   physicsPNG: TestPhysicsPNGScene,
   physicsCharacter: TestPhysicsCharacterScene,
   keyboard: TestKeyboardInputScene,
-  graphicsLevel: TestGraphicsLevelScene
+  graphicsLevel: TestGraphicsLevelScene,
+  graphicsCharacter: TestGraphicsCharacterScene
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene

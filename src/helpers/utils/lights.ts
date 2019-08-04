@@ -102,4 +102,8 @@ export function addPrettyLights(scene: Scene, bgColor: Color) {
   }
 
   scene.fog = new Fog(bgColor.getHex(), 0, 3)
+  return {
+    sunLight,
+    ambientLight
+  }
 }

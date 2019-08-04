@@ -16,7 +16,7 @@ import TestLightingScene from './TestLighting'
 export default class TestGraphicsLevelScene extends TestLightingScene {
   protected b2Preview: Box2DPreviewMesh
   protected myB2World: World
-  constructor(defaultLevel = 'test') {
+  constructor(defaultLevel = 'test-layout', showKeyboard = true) {
     super(false, false)
     const myB2World = new World(new Vec2(0, -9.8))
     const b2Preview = new Box2DPreviewMesh(myB2World)
@@ -43,6 +43,8 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
           ),
           materialLibrary.levelMaterial
         )
+        mesh.receiveShadow = true
+        mesh.castShadow = true
         mesh.position.set(
           -0.2 + (x - width * 0.5) * __pixelSizeMeters,
           0.2 - (y + height * 0.5) * __pixelSizeMeters,
@@ -51,12 +53,14 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
         this.scene.add(mesh)
       },
       () => {
-        const keyboardMesh = new ProceduralKeyboardMesh()
-        const keyboardInput = new KeyboardInput()
-        keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
-        // keyboardMesh.scale.multiplyScalar(0.3)
-        keyboardMesh.position.set(-0, 0.162, 0)
-        this.scene.add(keyboardMesh)
+        if (showKeyboard) {
+          const keyboardMesh = new ProceduralKeyboardMesh()
+          const keyboardInput = new KeyboardInput()
+          keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
+          // keyboardMesh.scale.multiplyScalar(0.3)
+          keyboardMesh.position.set(-0, 0.162, 0)
+          this.scene.add(keyboardMesh)
+        }
       }
     )
   }

@@ -1,5 +1,5 @@
 import KeyboardInput from '~/input/KeyboardInput'
-import { __phyicsScale } from '~/settings/physics'
+import { __physicsScale } from '~/settings/physics'
 import { cleanRemoveFromArrayMap, pushToArrayMap } from '~/utils/arrayUtils'
 import { KeyboardCodes } from '~/utils/KeyboardCodes'
 import { clamp, lerp, radiansDifference } from '~/utils/math'
@@ -83,6 +83,10 @@ const dangerAngleRange = 0.45
 
 export default class CharacterPhysics {
   body: Body
+  bodySize: Vec2
+  bodyOffset: Vec2
+  defaultBodySize: Vec2
+  defaultBodyOffset: Vec2
   private autoJump = false
   private autoThrash = false
   private jump = false
@@ -101,38 +105,45 @@ export default class CharacterPhysics {
     const characterContactListener = new CharacterContactListener(myB2World)
     myB2World.SetContactListener(characterContactListener)
 
+    const defaultBodySize = new Vec2(0.008, 0.007)
+    const defaultBodyOffset = new Vec2(0, 0.002)
     const body = createPhysicBox(
       myB2World,
-      0,
-      0.05,
-      0.008,
-      0.007,
+      defaultBodyOffset.x,
+      defaultBodyOffset.y,
+      defaultBodySize.x,
+      defaultBodySize.y,
       false,
       1.5,
       1.5
     )
+
     body.m_linearDamping = 1
     this.torsoFixture = body.m_fixtureList!
     this.torsoShape = this.torsoFixture.m_shape as PolygonShape
     const bodyZoneFixtureDef = new FixtureDef()
-    const legShape = new CircleShape(0.0025 * __phyicsScale)
-    legShape.m_p.Set(0, -0.015 * __phyicsScale)
+    const legShape = new CircleShape(0.0025 * __physicsScale)
+    legShape.m_p.Set(0, -0.015 * __physicsScale)
     bodyZoneFixtureDef.shape = legShape
     bodyZoneFixtureDef.isSensor = true
     bodyZoneFixtureDef.userData = { type: 'legs' }
     this.legsFixture = body.CreateFixture(bodyZoneFixtureDef)
-    const bellyShape = new CircleShape(0.0025 * __phyicsScale)
-    bellyShape.m_p.Set(0, -0.008 * __phyicsScale)
+    const bellyShape = new CircleShape(0.0025 * __physicsScale)
+    bellyShape.m_p.Set(0, -0.008 * __physicsScale)
     bodyZoneFixtureDef.shape = bellyShape
     bodyZoneFixtureDef.userData = { type: 'belly', enabled: true }
     this.bellyFixture = body.CreateFixture(bodyZoneFixtureDef)
-    const armsShape = new CircleShape(0.0075 * __phyicsScale)
-    armsShape.m_p.Set(0, 0.003 * __phyicsScale)
+    const armsShape = new CircleShape(0.0075 * __physicsScale)
+    armsShape.m_p.Set(0, 0.003 * __physicsScale)
     bodyZoneFixtureDef.shape = armsShape
     bodyZoneFixtureDef.userData = { type: 'arms' }
     this.armsFixture = body.CreateFixture(bodyZoneFixtureDef)
     body.SetAngularDamping(5)
     this.body = body
+    this.bodySize = defaultBodySize.Clone()
+    this.bodyOffset = defaultBodyOffset.Clone()
+    this.defaultBodySize = defaultBodySize
+    this.defaultBodyOffset = defaultBodyOffset
     this.characterContacts = characterContactListener.contactPairs
 
     const keyboardInput = new KeyboardInput()
@@ -146,15 +157,21 @@ export default class CharacterPhysics {
         this.jump = true
       }
       if (down) {
-        this.torsoShape.SetAsBox(
-          0.005 * __phyicsScale,
-          0.0025 * __phyicsScale,
-          new Vec2(0, -0.002 * __phyicsScale)
-        )
+        this.setTorsoShape(0.01, 0.005, 0, -0.002)
       } else {
         this.recoil = 1
       }
     }
+  }
+
+  setTorsoShape(width: number, height: number, x: number, y: number) {
+    this.bodySize.Set(width, height)
+    this.bodyOffset.Set(x, y)
+    this.torsoShape.SetAsBox(
+      width * 0.5 * __physicsScale,
+      height * 0.5 * __physicsScale,
+      new Vec2(x * __physicsScale, y * __physicsScale)
+    )
   }
 
   update(dt: number) {
@@ -165,11 +182,9 @@ export default class CharacterPhysics {
       if (this.recoil < 0) {
         this.recoil = 0
       }
-      this.torsoShape.SetAsBox(
-        lerp(0.004, 0.003, this.recoil) * __phyicsScale,
-        lerp(0.0035, 0.0045, this.recoil) * __phyicsScale,
-        new Vec2(0, lerp(0, 0.002, this.recoil) * __phyicsScale)
-      )
+      const w = lerp(0.008, 0.006, this.recoil)
+      const h = lerp(0.007, 0.009, this.recoil)
+      this.setTorsoShape(w, h, 0, lerp(0, 0.002, this.recoil))
     }
     const char = this.body
     this.autoJumpCooldown -= dt
@@ -226,9 +241,9 @@ export default class CharacterPhysics {
     } else if (angleDiff > safeAngleMax) {
       char.ApplyAngularImpulse(-0.00001)
     }
-    if (char.GetPosition().y < -1) {
+    if (char.GetPosition().y < -3) {
       char.SetLinearVelocity(new Vec2(0.0, 0.0))
-      char.SetPositionXY(0 * __phyicsScale, 0.05 * __phyicsScale)
+      char.SetPositionXY(0 * __physicsScale, 0.05 * __physicsScale)
       this.autoThrashCooldown = 0.5
       this.autoJumpCooldown = 3
     }

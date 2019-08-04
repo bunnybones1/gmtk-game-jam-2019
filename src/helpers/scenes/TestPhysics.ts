@@ -1,6 +1,6 @@
 import { WebGLRenderer } from 'three'
 import { Box2DPreviewMesh } from '~/meshes/Box2DPreviewMesh'
-import { __phyicsScale } from '~/settings/physics'
+import { __physicsScale } from '~/settings/physics'
 import { rand } from '~/utils/math'
 import { createPhysicBox, createPhysicsCircle } from '~/utils/physics'
 import { Body, Vec2, World } from '~/vendor/Box2D/Box2D'
@@ -43,8 +43,8 @@ export default class TestPhysicsScene extends BaseTestScene {
       if (p.y < -1) {
         circleBody.SetLinearVelocity(new Vec2(0.0, 0.0))
         circleBody.SetPositionXY(
-          rand(-0.1, 0.1) * __phyicsScale,
-          (0.1 + rand(-0.02, 0.02)) * __phyicsScale
+          rand(-0.1, 0.1) * __physicsScale,
+          (0.1 + rand(-0.02, 0.02)) * __physicsScale
         )
       }
     }
