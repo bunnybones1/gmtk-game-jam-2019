@@ -24,7 +24,7 @@ renderer.setClearColor(new Color(0x344556), 1.0)
 cameraShaker.camera.position.set(0, 0.5, 0.5)
 cameraShaker.camera.lookAt(new Vector3())
 
-const testClasses: { [K: string]: new () => BaseTestScene } = {
+const testClasses: { [K: string]: any } = {
   lighting: TestLightingScene,
   physics: TestPhysicsScene,
   physicsPNG: TestPhysicsPNGScene,
