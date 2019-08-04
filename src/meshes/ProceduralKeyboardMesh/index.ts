@@ -6,7 +6,7 @@ import { KeyboardCodes } from '~/utils/KeyboardCodes'
 import KeyButtonHoleMesh from './KeyButtonHoleMesh'
 import KeyButtonMesh from './KeyButtonMesh'
 
-const KEY_SCALE = 0.013
+const KEY_SCALE = 0.015
 class KeyInfo {
   constructor(
     public label: string,
@@ -133,7 +133,7 @@ const board: KeyInfo[][] = [
 ]
 
 const width = 0.37
-const height = 0.01
+const height = 0.015
 const depth = 0.13
 export default class ProceduralKeyboardMesh extends Mesh {
   private buttonsByEventCode: Map<KeyboardCodes, Mesh>
@@ -144,7 +144,7 @@ export default class ProceduralKeyboardMesh extends Mesh {
     )
     const buttonsByEventCode = new Map<KeyboardCodes, Mesh>()
 
-    const spacing = 0.45 * KEY_SCALE
+    const spacing = 0.15 * KEY_SCALE
     let cursorY = -depth * 0.5 + 0.01
     for (const row of board) {
       cursorY += (KEY_SCALE + spacing) * 0.5
@@ -153,19 +153,14 @@ export default class ProceduralKeyboardMesh extends Mesh {
         cursorX += (key.width + spacing) * 0.5
         if (key.label !== '') {
           const keyMeshHole = new KeyButtonHoleMesh(
-            key.width,
-            0.0075,
-            KEY_SCALE,
-            0.0025
+            key.width + 0.005,
+            0.012,
+            KEY_SCALE + 0.005,
+            0.0015
           )
           this.add(keyMeshHole)
-          keyMeshHole.position.set(cursorX, height - 0.001, cursorY)
-          const keyMesh = new KeyButtonMesh(
-            key.width,
-            0.0075,
-            KEY_SCALE,
-            0.0025
-          )
+          keyMeshHole.position.set(cursorX, height - 0.005, cursorY)
+          const keyMesh = new KeyButtonMesh(key.width, 0.01, KEY_SCALE, 0.0015)
           if (
             key.eventCode !== undefined &&
             !buttonsByEventCode.has(key.eventCode)
@@ -173,7 +168,7 @@ export default class ProceduralKeyboardMesh extends Mesh {
             buttonsByEventCode.set(key.eventCode, keyMesh)
           }
           this.add(keyMesh)
-          keyMesh.position.set(cursorX, height, cursorY)
+          keyMesh.position.set(cursorX, height - 0.0075, cursorY)
         }
         cursorX += (key.width + spacing) * 0.5
       }
@@ -185,8 +180,8 @@ export default class ProceduralKeyboardMesh extends Mesh {
   onKeyCodeEvent = (eventCode: KeyboardCodes, down: boolean) => {
     if (this.buttonsByEventCode.has(eventCode)) {
       this.buttonsByEventCode.get(eventCode)!.position.y = down
-        ? height - 0.005
-        : height
+        ? height - 0.012
+        : height - 0.0075
     }
   }
 }

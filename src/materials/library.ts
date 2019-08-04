@@ -30,5 +30,14 @@ class MaterialLibrary {
     }
     return this._keyboardPlasticHole
   }
+  private _levelMaterial: Material | undefined
+  get levelMaterial() {
+    if (!this._levelMaterial) {
+      this._levelMaterial = new MeshStandardMaterial({
+        color: 0x112233
+      })
+    }
+    return this._levelMaterial
+  }
 }
 export const materialLibrary = new MaterialLibrary()

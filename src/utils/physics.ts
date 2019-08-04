@@ -1,4 +1,4 @@
-import { __phyicsScale } from '~/settings/physics'
+import { __phyicsScale, __pixelSizeMeters } from '~/settings/physics'
 import {
   BodyDef,
   BodyType,
@@ -7,6 +7,26 @@ import {
   PolygonShape,
   World
 } from '~/vendor/Box2D/Box2D'
+
+const offsetX = -16
+const offsetY = 8
+
+export function createPhysicBoxFromPixels(
+  world: World,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) {
+  createPhysicBox(
+    world,
+    (x + offsetX - width * 0.5) * __pixelSizeMeters,
+    (-y + offsetY - height * 0.5) * __pixelSizeMeters,
+    width * __pixelSizeMeters,
+    height * __pixelSizeMeters,
+    true
+  )
+}
 
 export function createPhysicBox(
   world: World,

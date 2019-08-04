@@ -13,9 +13,9 @@ export function getChamferedBoxGeometry(
   const normArr = geo.attributes.normal.array as number[]
   const tempVec = new Vector3()
   const tempPos = new Vector3()
-  const halfWidth = width * 0.5
-  const halfHeight = height * 0.5
-  const halfDepth = depth * 0.5
+  const halfWidth = width * 0.5 - chamfer
+  const halfHeight = height * 0.5 - chamfer
+  const halfDepth = depth * 0.5 - chamfer
   for (let i3 = 0; i3 < normArr.length; i3 += 3) {
     tempVec.fromArray(normArr, i3)
     tempPos.fromArray(posArr, i3)
