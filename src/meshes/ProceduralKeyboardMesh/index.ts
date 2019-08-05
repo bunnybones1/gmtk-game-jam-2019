@@ -25,7 +25,8 @@ class KeySpace extends KeyInfo {
 
 const board: KeyInfo[][] = [
   [
-    new KeyInfo('ESC', 1.3, 'Escape'),
+    new KeyInfo('ESC', 1, 'Escape'),
+    new KeySpace(2),
     new KeyInfo('F1', 1, 'F1'),
     new KeyInfo('F2', 1, 'F2'),
     new KeyInfo('F3', 1, 'F3'),
@@ -38,34 +39,33 @@ const board: KeyInfo[][] = [
     new KeyInfo('F10', 1, 'F10'),
     new KeyInfo('F11', 1, 'F11'),
     new KeyInfo('F12', 1, 'F12'),
-    new KeyInfo('DEL', 1.7, 'Delete'),
     new KeySpace(0.5),
     new KeyInfo('PRNT SCRN', 1, 'F13'),
-    new KeyInfo('SCRLK', 1, 'F14'),
+    new KeyInfo('SCR LK', 1, 'F14'),
     new KeyInfo('PAUSE', 1, 'F15')
   ],
   [
     new KeyInfo('~', 1, 'Backquote'),
-    new KeyInfo('1', 1, 'Digit1'),
-    new KeyInfo('2', 1, 'Digit2'),
-    new KeyInfo('3', 1, 'Digit3'),
-    new KeyInfo('4', 1, 'Digit4'),
-    new KeyInfo('5', 1, 'Digit5'),
-    new KeyInfo('6', 1, 'Digit6'),
-    new KeyInfo('7', 1, 'Digit7'),
-    new KeyInfo('8', 1, 'Digit8'),
-    new KeyInfo('9', 1, 'Digit9'),
-    new KeyInfo('0', 1, 'Digit0'),
-    new KeyInfo('-', 1, 'Minus'),
-    new KeyInfo('=', 1, 'Equal'),
+    new KeyInfo('!\n1', 1, 'Digit1'),
+    new KeyInfo('@\n2', 1, 'Digit2'),
+    new KeyInfo('#\n3', 1, 'Digit3'),
+    new KeyInfo('$\n4', 1, 'Digit4'),
+    new KeyInfo('%\n5', 1, 'Digit5'),
+    new KeyInfo('^\n6', 1, 'Digit6'),
+    new KeyInfo('&\n7', 1, 'Digit7'),
+    new KeyInfo('*\n8', 1, 'Digit8'),
+    new KeyInfo('(\n9', 1, 'Digit9'),
+    new KeyInfo(')\n0', 1, 'Digit0'),
+    new KeyInfo('_\n-', 1, 'Minus'),
+    new KeyInfo('+\n=', 1, 'Equal'),
     new KeyInfo('BACKSPACE', 2, 'Backspace'),
     new KeySpace(0.5),
-    new KeyInfo('INSERT', 1, 'Insert'),
+    new KeyInfo('INS', 1, 'Insert'),
     new KeyInfo('HOME', 1, 'Home'),
-    new KeyInfo('PG UP', 1, 'PageUp')
+    new KeyInfo('PAGE UP', 1, 'PageUp')
   ],
   [
-    new KeyInfo('TAB', 1.75, 'Tab'),
+    new KeyInfo('TAB', 1.55, 'Tab'),
     new KeyInfo('Q', 1, 'KeyQ'),
     new KeyInfo('W', 1, 'KeyW'),
     new KeyInfo('E', 1, 'KeyE'),
@@ -76,16 +76,16 @@ const board: KeyInfo[][] = [
     new KeyInfo('I', 1, 'KeyI'),
     new KeyInfo('O', 1, 'KeyO'),
     new KeyInfo('P', 1, 'KeyP'),
-    new KeyInfo('{', 1, 'BracketLeft'),
-    new KeyInfo('}', 1, 'BracketRight'),
-    new KeyInfo('|', 1.25, 'Backslash'),
+    new KeyInfo('{\n[', 1, 'BracketLeft'),
+    new KeyInfo('}\n]', 1, 'BracketRight'),
+    new KeyInfo('|\n\\', 1.45, 'Backslash'),
     new KeySpace(0.5),
-    new KeyInfo('DELETE', 1, 'Delete'),
+    new KeyInfo('DEL', 1, 'Delete'),
     new KeyInfo('END', 1, 'End'),
-    new KeyInfo('PG DN', 1, 'PageDown')
+    new KeyInfo('PAGE DOWN', 1, 'PageDown')
   ],
   [
-    new KeyInfo('CAPS LCK', 2.25, 'CapsLock'),
+    new KeyInfo('CAPS LCK', 1.9, 'CapsLock'),
     new KeyInfo('A', 1, 'KeyA'),
     new KeyInfo('S', 1, 'KeyS'),
     new KeyInfo('D', 1, 'KeyD'),
@@ -95,12 +95,12 @@ const board: KeyInfo[][] = [
     new KeyInfo('J', 1, 'KeyJ'),
     new KeyInfo('K', 1, 'KeyK'),
     new KeyInfo('L', 1, 'KeyL'),
-    new KeyInfo(':', 1, 'Semicolon'),
-    new KeyInfo('"', 1, 'Quote'),
-    new KeyInfo('ENTER', 2.2, 'Enter')
+    new KeyInfo(':\n;', 1, 'Semicolon'),
+    new KeyInfo('"\n\'', 1, 'Quote'),
+    new KeyInfo('ENTER', 2.25, 'Enter')
   ],
   [
-    new KeyInfo('LEFTSHIFT', 2.9, 'ShiftLeft'),
+    new KeyInfo('⇧', 2.65, 'ShiftLeft'),
     new KeyInfo('Z', 1, 'KeyZ'),
     new KeyInfo('X', 1, 'KeyX'),
     new KeyInfo('C', 1, 'KeyC'),
@@ -108,31 +108,31 @@ const board: KeyInfo[][] = [
     new KeyInfo('B', 1, 'KeyB'),
     new KeyInfo('N', 1, 'KeyN'),
     new KeyInfo('M', 1, 'KeyM'),
-    new KeyInfo(',', 1, 'Comma'),
-    new KeyInfo('.', 1, 'Period'),
-    new KeyInfo('/', 1, 'Slash'),
-    new KeyInfo('RIGHTSHIFT', 3, 'ShiftRight'),
+    new KeyInfo('<\n,', 1, 'Comma'),
+    new KeyInfo('>\n.', 1, 'Period'),
+    new KeyInfo('?\n/', 1, 'Slash'),
+    new KeyInfo('⇧', 2.65, 'ShiftRight'),
     new KeySpace(0.5),
     new KeySpace(1),
-    new KeyInfo('UP', 1, 'ArrowUp')
+    new KeyInfo('↑', 1, 'ArrowUp')
   ],
   [
-    new KeyInfo('LEFTCTRL', 1.6, 'ControlLeft'),
+    new KeyInfo('CTRL', 1.5, 'ControlLeft'),
     new KeyInfo('FN', 1, undefined),
-    new KeyInfo('CMD', 1.6, 'MetaLeft'),
-    new KeyInfo('LEFTALT', 1.6, 'AltLeft'),
-    new KeyInfo('SPACE', 7, 'Space'),
-    new KeyInfo('RIGHTALT', 1.6, 'AltRight'),
-    new KeyInfo('MENU', 1.6, 'ContextMenu'),
-    new KeyInfo('RIGHTCTRL', 1.6, 'ControlRight'),
+    new KeyInfo('CMD', 1.5, 'MetaLeft'),
+    new KeyInfo('ALT', 1.5, 'AltLeft'),
+    new KeyInfo(' ', 5.9, 'Space'),
+    new KeyInfo('ALT', 1.5, 'AltRight'),
+    new KeyInfo('MENU', 1.5, 'ContextMenu'),
+    new KeyInfo('CTRL', 1.5, 'ControlRight'),
     new KeySpace(0.5),
-    new KeyInfo('LEFT', 1, 'ArrowLeft'),
-    new KeyInfo('DOWN', 1, 'ArrowDown'),
-    new KeyInfo('RIGHT', 1, 'ArrowRight')
+    new KeyInfo('←', 1, 'ArrowLeft'),
+    new KeyInfo('↓', 1, 'ArrowDown'),
+    new KeyInfo('→', 1, 'ArrowRight')
   ]
 ]
 
-const width = 0.37
+const width = 0.34
 const height = 0.015
 const depth = 0.13
 export default class ProceduralKeyboardMesh extends Mesh {
@@ -149,21 +149,32 @@ export default class ProceduralKeyboardMesh extends Mesh {
 
     const spacing = 0.15 * KEY_SCALE
     let cursorY = -depth * 0.5 + 0.01
+    let rowIndex = 0
     for (const row of board) {
+      if (rowIndex === 1) {
+        cursorY += (KEY_SCALE + spacing) * 0.5
+      }
+      rowIndex++
       cursorY += (KEY_SCALE + spacing) * 0.5
       let cursorX = -width * 0.5 + 0.01
       for (const key of row) {
         cursorX += (key.width + spacing) * 0.5
         if (key.label !== '') {
           const keyMeshHole = new KeyButtonHoleMesh(
-            key.width + 0.005,
+            key.width + 0.004,
             0.012,
-            KEY_SCALE + 0.005,
-            0.0015
+            KEY_SCALE + 0.004,
+            0.001
           )
           this.add(keyMeshHole)
           keyMeshHole.position.set(cursorX, height - 0.005, cursorY)
-          const keyMesh = new KeyButtonMesh(key.width, 0.01, KEY_SCALE, 0.0015)
+          const keyMesh = new KeyButtonMesh(
+            key.width,
+            0.01,
+            KEY_SCALE,
+            key.label,
+            0.0015
+          )
           if (
             key.eventCode !== undefined &&
             !buttonsByEventCode.has(key.eventCode)
@@ -171,9 +182,6 @@ export default class ProceduralKeyboardMesh extends Mesh {
             buttonsByEventCode.set(key.eventCode, keyMesh)
           }
           this.add(keyMesh)
-          if (Math.random() > 0.5) {
-            keyMesh.visible = false
-          }
           keyMesh.position.set(cursorX, height - 0.0075, cursorY)
         }
         cursorX += (key.width + spacing) * 0.5

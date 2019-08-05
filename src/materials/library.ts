@@ -10,6 +10,26 @@ class MaterialLibrary {
     }
     return this._keyboardPlasticKey
   }
+  private _keyboardPlasticKeyMouth: Material | undefined
+  get keyboardPlasticKeyMouth() {
+    if (!this._keyboardPlasticKeyMouth) {
+      this._keyboardPlasticKeyMouth = new MeshStandardMaterial({
+        color: 0x221111,
+        depthFunc: GreaterDepth,
+        side: BackSide
+      })
+    }
+    return this._keyboardPlasticKeyMouth
+  }
+  private _keyboardPlasticKeyUnderside: Material | undefined
+  get keyboardPlasticKeyUnderside() {
+    if (!this._keyboardPlasticKeyUnderside) {
+      this._keyboardPlasticKeyUnderside = new MeshStandardMaterial({
+        color: 0x070707
+      })
+    }
+    return this._keyboardPlasticKeyUnderside
+  }
   private _keyboardPlastic: Material | undefined
   get keyboardPlastic() {
     if (!this._keyboardPlastic) {

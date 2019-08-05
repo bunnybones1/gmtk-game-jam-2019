@@ -82,6 +82,15 @@ const safeAngleMax = Math.PI * safeAngleRange
 const dangerAngleRange = 0.45
 
 export default class CharacterPhysics {
+  static contactListener: CharacterContactListener
+
+  static initContactListener(world: World) {
+    if (!CharacterPhysics.contactListener) {
+      const characterContactListener = new CharacterContactListener(world)
+      world.SetContactListener(characterContactListener)
+      CharacterPhysics.contactListener = characterContactListener
+    }
+  }
   body: Body
   bodySize: Vec2
   bodyOffset: Vec2
@@ -102,8 +111,7 @@ export default class CharacterPhysics {
   private armsFixture: Fixture
   private characterContacts: Map<Fixture, Fixture[]>
   constructor(myB2World: World) {
-    const characterContactListener = new CharacterContactListener(myB2World)
-    myB2World.SetContactListener(characterContactListener)
+    CharacterPhysics.initContactListener(myB2World)
 
     const defaultBodySize = new Vec2(0.008, 0.007)
     const defaultBodyOffset = new Vec2(0, 0.002)
@@ -144,7 +152,7 @@ export default class CharacterPhysics {
     this.bodyOffset = defaultBodyOffset.Clone()
     this.defaultBodySize = defaultBodySize
     this.defaultBodyOffset = defaultBodyOffset
-    this.characterContacts = characterContactListener.contactPairs
+    this.characterContacts = CharacterPhysics.contactListener.contactPairs
 
     const keyboardInput = new KeyboardInput()
     keyboardInput.addListener(this.onKeyCodeEvent)
@@ -225,7 +233,6 @@ export default class CharacterPhysics {
         ((this.autoJump && this.autoJumpCooldown <= 0) || this.jump) &&
         this.characterContacts.has(this.legsFixture)
       ) {
-        this.jump = false
         this.autoJumpCooldown = 2
         const vel = char.GetLinearVelocity()
         char.SetLinearVelocity(
@@ -234,6 +241,7 @@ export default class CharacterPhysics {
         this.jumpEnergy = 0
       }
     }
+    this.jump = false
 
     const angleDiff = radiansDifference(char.GetAngle(), 0)
     if (angleDiff < safeAngleMin) {
