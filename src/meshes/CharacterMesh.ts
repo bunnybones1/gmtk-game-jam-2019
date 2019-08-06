@@ -10,7 +10,6 @@ export default class CharacterMesh extends Mesh {
       materialLibrary.keyboardPlasticKey
     )
     const w2 = w - 0.004
-    const h2 = h
     const geo = new SphereBufferGeometry(0.0045, 16, 8)
     const posArr = geo.attributes.position.array as number[]
     for (let i = 1; i < posArr.length; i += 3) {
