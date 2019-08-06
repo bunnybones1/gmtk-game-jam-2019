@@ -1,8 +1,7 @@
 import { Mesh, Object3D } from 'three'
-import { materialLibrary } from '~/materials/library'
+import CharacterMesh from '~/meshes/CharacterMesh'
 import CharacterPhysics from '~/physics/CharacterPhysics'
 import { __physicsScale } from '~/settings/physics'
-import { getCachedChamferedBoxGeometry } from '~/utils/geometry'
 import { World } from '~/vendor/Box2D/Box2D'
 
 export default class Character {
@@ -17,31 +16,7 @@ export default class Character {
     const padding = 0.003
     const w = s.x + padding
     const h = s.y + padding
-    const torsoMesh = new Mesh(
-      getCachedChamferedBoxGeometry(w, h, w, 0.001),
-      materialLibrary.keyboardPlasticKey
-    )
-    const w2 = w - 0.002
-    const undersideMesh = new Mesh(
-      getCachedChamferedBoxGeometry(w2, 0.002, w2, 0.0005),
-      materialLibrary.keyboardPlasticKeyUnderside
-    )
-    undersideMesh.position.y = -0.0045
-    torsoMesh.add(undersideMesh)
-    // const mouthMesh = new Mesh(
-    // 	getCachedChamferedBoxGeometry(
-    //     w * 0.5,
-    //     0.006,
-    //     w - 0.002,
-    //     0.0015
-    //   ),
-    //   materialLibrary.keyboardPlasticKeyMouth
-    // )
-    // mouthMesh.position.x += 0.0045
-    // torsoMesh.add(mouthMesh)
-
-    torsoMesh.castShadow = true
-    torsoMesh.receiveShadow = true
+    const torsoMesh = new CharacterMesh(w, h)
     torsoMesh.position.set(o.x, o.y, 0)
     visuals.add(torsoMesh)
     this.torsoMesh = torsoMesh

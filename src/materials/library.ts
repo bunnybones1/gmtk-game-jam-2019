@@ -1,4 +1,10 @@
-import { BackSide, GreaterDepth, Material, MeshStandardMaterial } from 'three'
+import {
+  BackSide,
+  GreaterDepth,
+  Material,
+  MeshBasicMaterial,
+  MeshStandardMaterial
+} from 'three'
 
 class MaterialLibrary {
   private _keyboardPlasticKey: Material | undefined
@@ -21,11 +27,24 @@ class MaterialLibrary {
     }
     return this._keyboardPlasticKeyMouth
   }
+  private _scoopMask: Material | undefined
+  get scoopMask() {
+    if (!this._scoopMask) {
+      this._scoopMask = new MeshBasicMaterial({
+        color: 0xff00ff,
+        depthWrite: false,
+        colorWrite: false
+      })
+    }
+    return this._scoopMask
+  }
   private _keyboardPlasticKeyUnderside: Material | undefined
   get keyboardPlasticKeyUnderside() {
     if (!this._keyboardPlasticKeyUnderside) {
       this._keyboardPlasticKeyUnderside = new MeshStandardMaterial({
-        color: 0x070707
+        color: 0xeeddaa,
+        depthFunc: GreaterDepth,
+        side: BackSide
       })
     }
     return this._keyboardPlasticKeyUnderside

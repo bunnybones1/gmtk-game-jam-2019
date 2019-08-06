@@ -53,7 +53,7 @@ export class BaseTestScene {
 
   render(renderer: WebGLRenderer, dt: number) {
     renderer.setClearColor(this.bgColor, 1)
-    renderer.clear(true)
+    renderer.clear(true, true, true)
     renderer.render(this.scene, this.camera)
   }
 }

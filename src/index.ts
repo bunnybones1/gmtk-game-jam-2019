@@ -9,6 +9,7 @@ import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
 import TestPhysicsCharacterScene from './helpers/scenes/TestPhysicsCharacter'
 import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
+import TestStencilsScene from './helpers/scenes/TestStencils'
 import TestTextScene from './helpers/scenes/TestText'
 import renderer from './renderer'
 import { timeUniform } from './uniforms'
@@ -33,7 +34,8 @@ const testClasses: { [K: string]: any } = {
   keyboard: TestKeyboardInputScene,
   graphicsLevel: TestGraphicsLevelScene,
   graphicsCharacter: TestGraphicsCharacterScene,
-  text: TestTextScene
+  text: TestTextScene,
+  stencils: TestStencilsScene
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene
