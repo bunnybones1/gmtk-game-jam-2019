@@ -9,6 +9,8 @@ The game is about helping your keyboard keys making their escape, to their peril
 
 The game is built on a fork of [Horizon Games' Game Kit A](https://github.com/horizon-games/game-kit-a)
 
+Playable on [itch.io](https://bunnybones1.itch.io/only-one) and [github.io](http://bunnybones1.github.io/gmtk-game-jam-2019/index.html)
+
 ### Setup ###
 
 Use `yarn install` to setup dependencies
