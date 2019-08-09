@@ -1,4 +1,4 @@
-import { Mesh } from 'three'
+import { Mesh, MeshStandardMaterial } from 'three'
 import KeyboardInput from '~/input/KeyboardInput'
 import { materialLibrary } from '~/materials/library'
 import { Box2DPreviewMesh } from '~/meshes/Box2DPreviewMesh'
@@ -31,12 +31,14 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
 
     new PNGLevel(
       getUrlParam('level') || defaultLevel,
-      (x: number, y: number, width: number, height: number) => {
+      (x: number, y: number, width: number, height: number, colour:number) => {
         createPhysicBoxFromPixels(myB2World, x, y, width, height)
         const depth = (width + height) * 0.5 * __pixelSizeMeters
         if (y + height >= 32) {
           height += 100
         }
+        const mat = materialLibrary.levelMaterial.clone() as MeshStandardMaterial
+        mat.color.setHex(colour)
         const mesh = new Mesh(
           getCachedChamferedBoxGeometry(
             width * __pixelSizeMeters,
@@ -44,7 +46,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
             depth,
             0.001
           ),
-          materialLibrary.levelMaterial
+          mat
         )
         mesh.receiveShadow = true
         mesh.castShadow = true
