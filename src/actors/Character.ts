@@ -8,7 +8,7 @@ export default class Character {
   visuals: Object3D
   private physics: CharacterPhysics
   private torsoMesh: Mesh
-  constructor(world: World, label:string = '') {
+  constructor(world: World, label: string = '') {
     this.physics = new CharacterPhysics(world)
     const s = this.physics.bodySize
     const o = this.physics.bodyOffset

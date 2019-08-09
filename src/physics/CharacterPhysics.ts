@@ -2,6 +2,7 @@ import KeyboardInput from '~/input/KeyboardInput'
 import { __physicsScale } from '~/settings/physics'
 import { cleanRemoveFromArrayMap, pushToArrayMap } from '~/utils/arrayUtils'
 import { KeyboardCodes } from '~/utils/KeyboardCodes'
+import { getUrlFloat } from '~/utils/location'
 import { clamp, lerp, radiansDifference } from '~/utils/math'
 import { createPhysicBox } from '~/utils/physics'
 import {
@@ -80,6 +81,8 @@ const safeAngleRange = 0.2
 const safeAngleMin = Math.PI * -safeAngleRange
 const safeAngleMax = Math.PI * safeAngleRange
 const dangerAngleRange = 0.45
+const startX = getUrlFloat('startX', 0, -0.1, 10)
+const startY = getUrlFloat('startY', 0.05, -0.5, 0.5)
 
 export default class CharacterPhysics {
   static contactListener: CharacterContactListener
@@ -147,6 +150,8 @@ export default class CharacterPhysics {
     bodyZoneFixtureDef.userData = { type: 'arms' }
     this.armsFixture = body.CreateFixture(bodyZoneFixtureDef)
     body.SetAngularDamping(5)
+    body.SetPositionXY(startX * __physicsScale, startY * __physicsScale)
+
     this.body = body
     this.bodySize = defaultBodySize.Clone()
     this.bodyOffset = defaultBodyOffset.Clone()
@@ -251,7 +256,7 @@ export default class CharacterPhysics {
     }
     if (char.GetPosition().y < -3) {
       char.SetLinearVelocity(new Vec2(0.0, 0.0))
-      char.SetPositionXY(0 * __physicsScale, 0.05 * __physicsScale)
+      char.SetPositionXY(startX * __physicsScale, startY * __physicsScale)
       this.autoThrashCooldown = 0.5
       this.autoJumpCooldown = 3
     }
