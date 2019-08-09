@@ -45,7 +45,7 @@ void main() {
   float signedDistance = unsignedDistance - (1.0 - 0.5 * vWeight);
 
   if ( unsignedDistance == 0.0 ) discard;
-  float contrast = (dFdx(vUv.x) + dFdy(vUv.y)) * contrastMultiplier;
+  float contrast = (abs(dFdx(vUv.x)) + abs(dFdy(vUv.y))) * contrastMultiplier;
 
   #ifdef USE_STROKE
     float distanceOpacity = signedDistance + (strokeWidth * strokeBias);

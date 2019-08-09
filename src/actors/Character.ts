@@ -8,15 +8,15 @@ export default class Character {
   visuals: Object3D
   private physics: CharacterPhysics
   private torsoMesh: Mesh
-  constructor(world: World) {
+  constructor(world: World, label:string = '') {
     this.physics = new CharacterPhysics(world)
     const s = this.physics.bodySize
     const o = this.physics.bodyOffset
     const visuals = new Object3D()
-    const padding = 0.003
+    const padding = 0.0027
     const w = s.x + padding
     const h = s.y + padding
-    const torsoMesh = new CharacterMesh(w, h)
+    const torsoMesh = new CharacterMesh(w, h, label)
     torsoMesh.position.set(o.x, o.y, 0)
     visuals.add(torsoMesh)
     this.torsoMesh = torsoMesh

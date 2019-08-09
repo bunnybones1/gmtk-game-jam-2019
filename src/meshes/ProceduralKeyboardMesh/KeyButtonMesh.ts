@@ -10,7 +10,7 @@ const med = textSettings.keyLabel
 const doubleSymbol = textSettings.keyLabelDouble
 const small = textSettings.keyLabelSmall
 function getFont(str: string) {
-  if (str.length > 1 && str.length <= 3 && str[0] == 'F') {
+  if (str.length > 1 && str.length <= 3 && str[0] === 'F') {
     const chunks = str.split('F')
     if (isNumber(chunks[1])) {
       return doubleSymbol
@@ -48,7 +48,7 @@ export default class KeyButtonMesh extends Mesh {
       labelMesh.rotation.x = -Math.PI * 0.5
       this.add(labelMesh)
     }
-    this.renderOrder = 200
+    this.renderOrder = 10
     this.castShadow = true
     this.receiveShadow = true
   }

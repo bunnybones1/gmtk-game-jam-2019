@@ -23,7 +23,7 @@ class KeySpace extends KeyInfo {
   }
 }
 
-const board: KeyInfo[][] = [
+export const keyInfo: KeyInfo[][] = [
   [
     new KeyInfo('ESC', 1, 'Escape'),
     new KeySpace(2),
@@ -150,7 +150,7 @@ export default class ProceduralKeyboardMesh extends Mesh {
     const spacing = 0.15 * KEY_SCALE
     let cursorY = -depth * 0.5 + 0.01
     let rowIndex = 0
-    for (const row of board) {
+    for (const row of keyInfo) {
       if (rowIndex === 1) {
         cursorY += (KEY_SCALE + spacing) * 0.5
       }
