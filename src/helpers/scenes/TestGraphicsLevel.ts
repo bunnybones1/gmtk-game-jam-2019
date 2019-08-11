@@ -31,7 +31,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
 
     new PNGLevel(
       getUrlParam('level') || defaultLevel,
-      (x: number, y: number, width: number, height: number, colour:number) => {
+      (x: number, y: number, width: number, height: number, colour: number) => {
         createPhysicBoxFromPixels(myB2World, x, y, width, height)
         const depth = (width + height) * 0.5 * __pixelSizeMeters
         if (y + height >= 32) {

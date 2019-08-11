@@ -1,9 +1,17 @@
-import { Color } from 'three';
-
+import { Color } from 'three'
 
 class BlocksRecipes {
-  private blocks = new  Map<number, Map<number, Map<number, Map<number, number>>>>()
-  register(x: number, y: number, width: number, height: number, colour:number) {
+  private blocks = new Map<
+    number,
+    Map<number, Map<number, Map<number, number>>>
+  >()
+  register(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    colour: number
+  ) {
     if (!this.blocks.has(x)) {
       this.blocks.set(x, new Map())
     }
@@ -29,7 +37,15 @@ class BlocksRecipes {
       blocksWidth.set(y, height)
     }
   }
-  process(cb: (x: number, y: number, width: number, height: number, colour:number) => void) {
+  process(
+    cb: (
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      colour: number
+    ) => void
+  ) {
     this.blocks.forEach((blocksX, x) => {
       blocksX.forEach((blocksColour, colour) => {
         blocksColour.forEach((blocksWidth, width) => {
@@ -71,49 +87,48 @@ export default class PNGLevel {
       const colour = new Color()
       const nextColour = new Color()
       for (let i = 0; i < data.length; i++) {
-          
-        function log(msg:string) {
+        function log(msg: string) {
           const x = i % width
           const y = Math.floor(i / width)
           console.log(`build? x(${x})y(${y}), ${msg}`)
         }
 
         function logc() {
-            const x = i % width
-            const y = Math.floor(i / width)
-            console.log(`position: x(${x})y(${y}), colour= ${colour.r} ${colour.g} ${colour.b},
+          const x = i % width
+          const y = Math.floor(i / width)
+          console.log(`position: x(${x})y(${y}), colour= ${colour.r} ${colour.g} ${colour.b},
             cHex = ${cHex}, is opaque? = ${opaque}`)
         }
 
         function lognc() {
-            console.log(`nextColour= ${nextColour.r} ${nextColour.g} ${nextColour.b},
+          console.log(`nextColour= ${nextColour.r} ${nextColour.g} ${nextColour.b},
             ncHex = ${ncHex}, is nextOpaque? = ${nextOpaque}`)
         }
 
-        colour.r = data[i * 4 + 0] /255
-        colour.g = data[i * 4 + 1] /255
-        colour.b = data[i * 4 + 2] /255
+        colour.r = data[i * 4 + 0] / 255
+        colour.g = data[i * 4 + 1] / 255
+        colour.b = data[i * 4 + 2] / 255
         const cHex = colour.getHex()
         const opaque = data[i * 4 + 3] > 128
         //logc()
 
-        let j = i + 1
-        nextColour.r = data[j * 4 + 0] /255
-        nextColour.g = data[j * 4 + 1] /255
-        nextColour.b = data[j * 4 + 2] /255
+        const j = i + 1
+        nextColour.r = data[j * 4 + 0] / 255
+        nextColour.g = data[j * 4 + 1] / 255
+        nextColour.b = data[j * 4 + 2] / 255
         const ncHex = nextColour.getHex()
         const nextOpaque = data[j * 4 + 3] > 128
         //lognc()
 
         let build = false
-        
+
         if (opaque) {
           accumilator++
-          if (cHex!==ncHex) {
+          if (cHex !== ncHex) {
             build = true
             //log('next colour changes')
           }
-          if (opaque!=nextOpaque) {
+          if (opaque != nextOpaque) {
             build = true
             //log('next opaque changes')
           }
