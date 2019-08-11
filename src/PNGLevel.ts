@@ -68,49 +68,70 @@ export default class PNGLevel {
       context.drawImage(img, 0, 0, width, height)
       const data = context.getImageData(0, 0, canvas.width, canvas.height).data
       let accumilator = 0
-      let c = -1
-      let cCount = 0
-      const nextColour = new Color()
       const colour = new Color()
+      const nextColour = new Color()
       for (let i = 0; i < data.length; i++) {
+          
+        function log(msg:string) {
+          const x = i % width
+          const y = Math.floor(i / width)
+          console.log(`build? x(${x})y(${y}), ${msg}`)
+        }
+
+        function logc() {
+            const x = i % width
+            const y = Math.floor(i / width)
+            console.log(`position: x(${x})y(${y}), colour= ${colour.r} ${colour.g} ${colour.b},
+            cHex = ${cHex}, is opaque? = ${opaque}`)
+        }
+
+        function lognc() {
+            console.log(`nextColour= ${nextColour.r} ${nextColour.g} ${nextColour.b},
+            ncHex = ${ncHex}, is nextOpaque? = ${nextOpaque}`)
+        }
 
         colour.r = data[i * 4 + 0] /255
         colour.g = data[i * 4 + 1] /255
         colour.b = data[i * 4 + 2] /255
-        const c2 = colour.getHex()
+        const cHex = colour.getHex()
+        const opaque = data[i * 4 + 3] > 128
+        //logc()
 
-        function log(msg:string) {
-          const x = i % width
-          const y = Math.floor(i / width)
-          console.log(`${x} ${y} ${msg}`)
-        }
+        let j = i + 1
+        nextColour.r = data[j * 4 + 0] /255
+        nextColour.g = data[j * 4 + 1] /255
+        nextColour.b = data[j * 4 + 2] /255
+        const ncHex = nextColour.getHex()
+        const nextOpaque = data[j * 4 + 3] > 128
+        //lognc()
 
         let build = false
-        const opaque = data[i * 4 + 3] > 128
+        
         if (opaque) {
           accumilator++
-          if (c!==c2) { // && (accumilator > 1) // !nextColour.equals(colour) && opaque
+          if (cHex!==ncHex) {
             build = true
-            log('build? colour change')
+            //log('next colour changes')
           }
-          c = c2
+          if (opaque!=nextOpaque) {
+            build = true
+            //log('next opaque changes')
+          }
         } else {
           build = true
-          log('build? transparent')
+          //log('not opaque')
         }
         if ((i + 1) % width === 0) {
           build = true
-          log('build? wrap-around')
+          //log('wrap-around')
         }
-
-        
-
         if (build && accumilator > 0) {
           const iCol = i % width
           const iRow = Math.floor(i / width)
-          blockRecipes.register(iCol, iRow, accumilator, 1, c)
+          blockRecipes.register(iCol, iRow, accumilator, 1, cHex)
+          //log(`Accume= ${accumilator}, Colour= ${cHex}`)
           accumilator = 0
-          log('BUILD!')
+          //log('YES, BUILD EET!')
         }
       }
       blockRecipes.process(blockProcessor)
