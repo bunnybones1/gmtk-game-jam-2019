@@ -8,9 +8,7 @@ import { getCachedChamferedBoxGeometry } from '~/utils/geometry'
 import { getUrlFlag, getUrlParam } from '~/utils/location'
 import { createPhysicBoxFromPixels } from '~/utils/physics'
 import { Vec2, World } from '~/vendor/Box2D/Box2D'
-
 import ProceduralKeyboardMesh from '../../meshes/ProceduralKeyboardMesh'
-
 import TestLightingScene from './TestLighting'
 
 export default class TestGraphicsLevelScene extends TestLightingScene {
@@ -32,7 +30,11 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
     new PNGLevel(
       getUrlParam('level') || defaultLevel,
       (x: number, y: number, width: number, height: number, colour: number) => {
-        createPhysicBoxFromPixels(myB2World, x, y, width, height)
+        
+        if (colour !== 0xFFFF00){ //if block not yellow, make physics properties
+            createPhysicBoxFromPixels(myB2World, x, y, width, height)
+        }
+        
         const depth = (width + height) * 0.5 * __pixelSizeMeters
         if (y + height >= 32) {
           height += 100
@@ -56,6 +58,15 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
           0
         )
         this.scene.add(mesh)
+
+        const offset = depth * 0.5 + 0.01
+        if (colour === 0xFFFF00){
+          const copy = mesh.clone()
+          copy.position.z -= offset
+          mesh.position.z += offset
+          this.scene.add(copy)
+        }
+
       },
       () => {
         const keyboardMesh = new ProceduralKeyboardMesh()
