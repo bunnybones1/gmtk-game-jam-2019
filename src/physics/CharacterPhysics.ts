@@ -17,19 +17,21 @@ import {
   World
 } from '~/vendor/Box2D/Box2D'
 
+export type SensorCallback = (sensor:Fixture, rigidBody:Fixture) => void
+
 class ContactPair {
-  characterPart: Fixture
-  level: Fixture
-  set(characterPart: Fixture, level: Fixture) {
-    this.characterPart = characterPart
-    this.level = level
+  sensor: Fixture
+  rigidBody: Fixture
+  set(sensor: Fixture, rigidBody: Fixture) {
+    this.sensor = sensor
+    this.rigidBody = rigidBody
     return this
   }
 }
 
 const __sharedContactPair = new ContactPair()
 
-function getContactBetweenLegZoneAndLevel(contact: Contact) {
+function getContactBetweenSensorAndRigidBody(contact: Contact) {
   const fixtureA = contact.GetFixtureA()
   const fixtureB = contact.GetFixtureB()
 
@@ -53,24 +55,24 @@ class CharacterContactListener extends ContactListener {
     this.world = world
   }
   BeginContact(contact: Contact) {
-    const contactPair = getContactBetweenLegZoneAndLevel(contact)
+    const contactPair = getContactBetweenSensorAndRigidBody(contact)
     if (contactPair) {
       pushToArrayMap(
         this.contactPairs,
-        contactPair.characterPart,
-        contactPair.level
+        contactPair.sensor,
+        contactPair.rigidBody
       )
     }
   }
 
   EndContact(contact: Contact) {
-    const contactPair = getContactBetweenLegZoneAndLevel(contact)
+    const contactPair = getContactBetweenSensorAndRigidBody(contact)
     if (contactPair) {
       if (contactPair) {
         cleanRemoveFromArrayMap(
           this.contactPairs,
-          contactPair.characterPart,
-          contactPair.level
+          contactPair.sensor,
+          contactPair.rigidBody
         )
       }
     }
@@ -112,8 +114,11 @@ export default class CharacterPhysics {
   private legsFixture: Fixture
   private bellyFixture: Fixture
   private armsFixture: Fixture
-  private characterContacts: Map<Fixture, Fixture[]>
-  constructor(myB2World: World) {
+  private sensorBodyContacts: Map<Fixture, Fixture[]>
+  constructor(
+    myB2World: World,
+    private sensorCallback?:SensorCallback
+  ) {
     CharacterPhysics.initContactListener(myB2World)
 
     const defaultBodySize = new Vec2(0.008, 0.007)
@@ -157,7 +162,7 @@ export default class CharacterPhysics {
     this.bodyOffset = defaultBodyOffset.Clone()
     this.defaultBodySize = defaultBodySize
     this.defaultBodyOffset = defaultBodyOffset
-    this.characterContacts = CharacterPhysics.contactListener.contactPairs
+    this.sensorBodyContacts = CharacterPhysics.contactListener.contactPairs
 
     const keyboardInput = new KeyboardInput()
     keyboardInput.addListener(this.onKeyCodeEvent)
@@ -203,23 +208,23 @@ export default class CharacterPhysics {
     this.autoJumpCooldown -= dt
     this.autoThrashCooldown -= dt
     const vel = char.GetLinearVelocity()
-    if (this.characterContacts.size > 0) {
+    if (this.sensorBodyContacts.size > 0) {
       const angleDiff = radiansDifference(char.GetAngle(), 0)
       const walkSafe = Math.abs(angleDiff) < safeAngleRange
-      if (this.characterContacts.has(this.legsFixture) && walkSafe) {
+      if (this.sensorBodyContacts.has(this.legsFixture) && walkSafe) {
         const runSpeed = vel.x < 0 ? vel.x * 0.6 : vel.x
         if (vel.y < 0) {
           char.SetLinearVelocity(new Vec2(runSpeed, 0)) //stop if falling
         }
         char.ApplyForceToCenter(new Vec2(0.025, 0)) // run right
       }
-      if (!this.tucked && this.characterContacts.has(this.bellyFixture)) {
+      if (!this.tucked && this.sensorBodyContacts.has(this.bellyFixture)) {
         char.ApplyLinearImpulseToCenter(new Vec2(0, 0.0015), true)
       }
       if (
         Math.abs(angleDiff) > dangerAngleRange &&
         ((this.autoThrash && this.autoThrashCooldown <= 0) || this.jump) &&
-        this.characterContacts.has(this.armsFixture)
+        this.sensorBodyContacts.has(this.armsFixture)
       ) {
         this.jump = false
         this.jumpEnergy = 0
@@ -236,7 +241,7 @@ export default class CharacterPhysics {
       }
       if (
         ((this.autoJump && this.autoJumpCooldown <= 0) || this.jump) &&
-        this.characterContacts.has(this.legsFixture)
+        this.sensorBodyContacts.has(this.legsFixture)
       ) {
         this.autoJumpCooldown = 2
         const vel = char.GetLinearVelocity()
@@ -244,6 +249,13 @@ export default class CharacterPhysics {
           new Vec2(vel.x, 100 * clamp(this.jumpEnergy * 0.1 + 0.01, 0, 0.04))
         )
         this.jumpEnergy = 0
+      }
+      if(this.sensorCallback) {
+        this.sensorBodyContacts.forEach((rigidBodies, sensor) => {
+          if(rigidBodies.includes(this.torsoFixture)) {
+            this.sensorCallback!(sensor, this.torsoFixture)
+          }
+        })
       }
     }
     this.jump = false

@@ -1,6 +1,6 @@
 import { Mesh, Object3D } from 'three'
 import CharacterMesh from '~/meshes/CharacterMesh'
-import CharacterPhysics from '~/physics/CharacterPhysics'
+import CharacterPhysics, { SensorCallback } from '~/physics/CharacterPhysics'
 import { __physicsScale } from '~/settings/physics'
 import { World } from '~/vendor/Box2D/Box2D'
 
@@ -8,8 +8,8 @@ export default class Character {
   visuals: Object3D
   private physics: CharacterPhysics
   private torsoMesh: Mesh
-  constructor(world: World, label: string = '') {
-    this.physics = new CharacterPhysics(world)
+  constructor(world: World, label: string = '', sensorCallback?:SensorCallback) {
+    this.physics = new CharacterPhysics(world, sensorCallback)
     const s = this.physics.bodySize
     const o = this.physics.bodyOffset
     const visuals = new Object3D()

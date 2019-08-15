@@ -16,7 +16,8 @@ export function createPhysicBoxFromPixels(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  isSensor = false
 ) {
   createPhysicBox(
     world,
@@ -24,7 +25,10 @@ export function createPhysicBoxFromPixels(
     (-y + offsetY - height * 0.5) * __pixelSizeMeters,
     width * __pixelSizeMeters,
     height * __pixelSizeMeters,
-    true
+    true,
+    undefined,
+    undefined,
+    isSensor
   )
 }
 
@@ -36,7 +40,8 @@ export function createPhysicBox(
   height: number,
   staticBody = false,
   friction = 0.1,
-  density = 1
+  density = 1,
+  isSensor = false
 ) {
   const bodyDef = new BodyDef()
   const fixtureDef = new FixtureDef()
@@ -47,6 +52,7 @@ export function createPhysicBox(
   fixtureDef.friction = friction
   fixtureDef.restitution = 0.7
   fixtureDef.density = density
+  fixtureDef.isSensor = isSensor
   const templateRect = new PolygonShape().SetAsBox(
     width * 0.5 * __physicsScale,
     height * 0.5 * __physicsScale

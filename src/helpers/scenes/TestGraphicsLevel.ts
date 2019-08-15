@@ -7,7 +7,7 @@ import { __pixelSizeMeters } from '~/settings/physics'
 import { getCachedChamferedBoxGeometry } from '~/utils/geometry'
 import { getUrlFlag, getUrlParam } from '~/utils/location'
 import { createPhysicBoxFromPixels } from '~/utils/physics'
-import { Vec2, World } from '~/vendor/Box2D/Box2D'
+import { Vec2, World, Fixture } from '~/vendor/Box2D/Box2D'
 import ProceduralKeyboardMesh from '../../meshes/ProceduralKeyboardMesh'
 import TestLightingScene from './TestLighting'
 
@@ -16,6 +16,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
   protected myB2World: World
   protected keyboardInput: KeyboardInput
   protected keyboardMesh: ProceduralKeyboardMesh
+  protected checkpointBodies: Fixture[] = []
   constructor(defaultLevel = 'test-layout') {
     super(false, false)
     const myB2World = new World(new Vec2(0, -9.8))
@@ -31,9 +32,9 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
       getUrlParam('level') || defaultLevel,
       (x: number, y: number, width: number, height: number, colour: number) => {
         
-        if (colour !== 0xFFFF00){ //if block not yellow, make physics properties
-            createPhysicBoxFromPixels(myB2World, x, y, width, height)
-        }
+        //if block yellow, make physics/sensor properties
+        const isSensor = colour === 0xFFFF00
+        createPhysicBoxFromPixels(myB2World, x, y, width, height, isSensor)
         
         const depth = (width + height) * 0.5 * __pixelSizeMeters
         if (y + height >= 32) {
