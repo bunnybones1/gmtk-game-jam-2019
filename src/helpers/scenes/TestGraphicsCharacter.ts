@@ -5,17 +5,21 @@ import { getUrlInt } from '~/utils/location'
 import { lerp } from '~/utils/math'
 
 import TestGraphicsLevelScene from './TestGraphicsLevel'
-import { Fixture } from '~/vendor/Box2D/Box2D';
 
 export default class TestGraphicsCharacterScene extends TestGraphicsLevelScene {
   protected characters: Character[] = []
   constructor() {
     super('test-layout')
     for (let i = 0; i < getUrlInt('characters', 1, 1, 40); i++) {
-      const character = new Character(this.myB2World, '', (sensor, rigidBody) => {
-        
-        debugger
-      })
+      const character = new Character(
+        this.myB2World,
+        '',
+        (sensor, rigidBody) => {
+          const pos = sensor.GetBody().GetPosition()
+          character.physics.startX = pos.x / __physicsScale
+          character.physics.startY = pos.y / __physicsScale
+        }
+      )
       this.characters.push(character)
       this.scene.add(character.visuals)
     }

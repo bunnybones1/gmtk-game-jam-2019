@@ -17,7 +17,7 @@ import {
   World
 } from '~/vendor/Box2D/Box2D'
 
-export type SensorCallback = (sensor:Fixture, rigidBody:Fixture) => void
+export type SensorCallback = (sensor: Fixture, rigidBody: Fixture) => void
 
 class ContactPair {
   sensor: Fixture
@@ -83,8 +83,6 @@ const safeAngleRange = 0.2
 const safeAngleMin = Math.PI * -safeAngleRange
 const safeAngleMax = Math.PI * safeAngleRange
 const dangerAngleRange = 0.45
-const startX = getUrlFloat('startX', 0, -0.1, 10)
-const startY = getUrlFloat('startY', 0.05, -0.5, 0.5)
 
 export default class CharacterPhysics {
   static contactListener: CharacterContactListener
@@ -101,6 +99,8 @@ export default class CharacterPhysics {
   bodyOffset: Vec2
   defaultBodySize: Vec2
   defaultBodyOffset: Vec2
+  startX = getUrlFloat('startX', 0, -0.1, 10)
+  startY = getUrlFloat('startY', 0.05, -0.5, 0.5)
   private autoJump = false
   private autoThrash = false
   private jump = false
@@ -115,10 +115,7 @@ export default class CharacterPhysics {
   private bellyFixture: Fixture
   private armsFixture: Fixture
   private sensorBodyContacts: Map<Fixture, Fixture[]>
-  constructor(
-    myB2World: World,
-    private sensorCallback?:SensorCallback
-  ) {
+  constructor(myB2World: World, private sensorCallback?: SensorCallback) {
     CharacterPhysics.initContactListener(myB2World)
 
     const defaultBodySize = new Vec2(0.008, 0.007)
@@ -155,7 +152,10 @@ export default class CharacterPhysics {
     bodyZoneFixtureDef.userData = { type: 'arms' }
     this.armsFixture = body.CreateFixture(bodyZoneFixtureDef)
     body.SetAngularDamping(5)
-    body.SetPositionXY(startX * __physicsScale, startY * __physicsScale)
+    body.SetPositionXY(
+      this.startX * __physicsScale,
+      this.startY * __physicsScale
+    )
 
     this.body = body
     this.bodySize = defaultBodySize.Clone()
@@ -250,9 +250,9 @@ export default class CharacterPhysics {
         )
         this.jumpEnergy = 0
       }
-      if(this.sensorCallback) {
+      if (this.sensorCallback) {
         this.sensorBodyContacts.forEach((rigidBodies, sensor) => {
-          if(rigidBodies.includes(this.torsoFixture)) {
+          if (rigidBodies.includes(this.torsoFixture)) {
             this.sensorCallback!(sensor, this.torsoFixture)
           }
         })
@@ -268,7 +268,10 @@ export default class CharacterPhysics {
     }
     if (char.GetPosition().y < -3) {
       char.SetLinearVelocity(new Vec2(0.0, 0.0))
-      char.SetPositionXY(startX * __physicsScale, startY * __physicsScale)
+      char.SetPositionXY(
+        this.startX * __physicsScale,
+        this.startY * __physicsScale
+      )
       this.autoThrashCooldown = 0.5
       this.autoJumpCooldown = 3
     }
