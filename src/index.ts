@@ -2,6 +2,7 @@ import { Clock, Color, Vector3 } from 'three'
 
 import { simpleTweener } from './animation/tweeners'
 import { BaseTestScene } from './helpers/scenes/BaseTestScene'
+import TestGamePadScene from './helpers/scenes/TestGamePad'
 import TestGraphicsCharacterScene from './helpers/scenes/TestGraphicsCharacter'
 import TestGraphicsLevelScene from './helpers/scenes/TestGraphicsLevel'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
@@ -31,6 +32,7 @@ const testClasses: { [K: string]: any } = {
   physics: TestPhysicsScene,
   physicsPNG: TestPhysicsPNGScene,
   physicsCharacter: TestPhysicsCharacterScene,
+  gamePad: TestGamePadScene,
   keyboard: TestKeyboardInputScene,
   graphicsLevel: TestGraphicsLevelScene,
   graphicsCharacter: TestGraphicsCharacterScene,

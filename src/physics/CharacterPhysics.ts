@@ -4,9 +4,14 @@ import { cleanRemoveFromArrayMap, pushToArrayMap } from '~/utils/arrayUtils'
 import { KeyboardCodes } from '~/utils/KeyboardCodes'
 import { getUrlFloat } from '~/utils/location'
 import { clamp, lerp, radiansDifference } from '~/utils/math'
-import { createPhysicBox } from '~/utils/physics'
+import {
+  createPhysicBox,
+  getContactBetweenSensorAndRigidBody,
+  SensorCallback
+} from '~/utils/physics'
 import {
   Body,
+  BodyType,
   CircleShape,
   Contact,
   ContactListener,
@@ -17,35 +22,6 @@ import {
   World
 } from '~/vendor/Box2D/Box2D'
 
-export type SensorCallback = (sensor: Fixture, rigidBody: Fixture) => void
-
-class ContactPair {
-  sensor: Fixture
-  rigidBody: Fixture
-  set(sensor: Fixture, rigidBody: Fixture) {
-    this.sensor = sensor
-    this.rigidBody = rigidBody
-    return this
-  }
-}
-
-const __sharedContactPair = new ContactPair()
-
-function getContactBetweenSensorAndRigidBody(contact: Contact) {
-  const fixtureA = contact.GetFixtureA()
-  const fixtureB = contact.GetFixtureB()
-
-  // //make sure only one of the fixtures was a sensor
-  if (fixtureA.m_isSensor === fixtureB.m_isSensor) {
-    return
-  }
-
-  if (fixtureA.m_isSensor) {
-    return __sharedContactPair.set(fixtureA, fixtureB)
-  } else {
-    return __sharedContactPair.set(fixtureB, fixtureA)
-  }
-}
 class CharacterContactListener extends ContactListener {
   world: World
   contactPairs: Map<Fixture, Fixture[]>
@@ -126,7 +102,7 @@ export default class CharacterPhysics {
       defaultBodyOffset.y,
       defaultBodySize.x,
       defaultBodySize.y,
-      false,
+      BodyType.dynamicBody,
       1.5,
       1.5
     )

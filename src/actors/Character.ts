@@ -1,7 +1,8 @@
 import { Mesh, Object3D } from 'three'
 import CharacterMesh from '~/meshes/CharacterMesh'
-import CharacterPhysics, { SensorCallback } from '~/physics/CharacterPhysics'
+import CharacterPhysics from '~/physics/CharacterPhysics'
 import { __physicsScale } from '~/settings/physics'
+import { SensorCallback } from '~/utils/physics'
 import { World } from '~/vendor/Box2D/Box2D'
 
 export default class Character {
