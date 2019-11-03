@@ -19,9 +19,12 @@
     "lint:fixtslint": "tslint -c tslint.json --fix $(find src -type f -name *.ts -o -name *.tsx)"
   },
   "dependencies": {
+    "@saltyrtc/client": "^0.14.4",
+    "msgpack-lite": "^0.1.26",
     "three": "^0.105.2",
     "three-bmfont-text": "^2.3.0",
-    "threejs-camera-controller-first-person-desktop": "^5.0.1"
+    "threejs-camera-controller-first-person-desktop": "^5.0.1",
+    "tweetnacl": "^1.0.1"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.4",

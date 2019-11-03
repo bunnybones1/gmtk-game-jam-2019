@@ -13,6 +13,7 @@ import TestPhysicsCharacterScene from './helpers/scenes/TestPhysicsCharacter'
 import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
 import TestStencilsScene from './helpers/scenes/TestStencils'
 import TestTextScene from './helpers/scenes/TestText'
+import TestWebRTCScene from './helpers/scenes/TestWebRTC'
 import renderer from './renderer'
 import { timeUniform } from './uniforms'
 import { cameraShaker } from './utils/cameraShaker'
@@ -39,7 +40,8 @@ const testClasses: { [K: string]: any } = {
   physicsCharacter: TestPhysicsCharacterScene,
   physicsPNG: TestPhysicsPNGScene,
   stencils: TestStencilsScene,
-  text: TestTextScene
+  text: TestTextScene,
+  webRTC: TestWebRTCScene
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene
