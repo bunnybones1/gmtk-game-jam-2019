@@ -11,7 +11,7 @@ if (!dist || dist === '') {
 const appConfig = require(`../game.${dist}.json`)
 
 const main = [
-  'webpack-dev-server/client?http://0.0.0.0:3001',
+  'webpack-dev-server/client?http://0.0.0.0:8001',
   'webpack/hot/only-dev-server',
   './src/index.ts'
 ]
@@ -105,7 +105,7 @@ module.exports = dist => ({
   devtool: 'eval-source-map',
   devServer: {
     host: '0.0.0.0',
-    port: 3001,
+    port: 8001,
     open: false,
     hot: true,
     historyApiFallback: true,

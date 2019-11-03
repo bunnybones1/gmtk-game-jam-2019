@@ -26,7 +26,9 @@ export default class TestTextScene extends BaseTestScene {
     keys2.position.y = -0.05
     this.scene.add(keys2)
 
-    const init = async () => {}
+    const init = async () => {
+      //
+    }
     init()
   }
   update(dt: number) {

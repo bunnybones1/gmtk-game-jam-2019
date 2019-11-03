@@ -1,4 +1,5 @@
 import { Mesh, MeshStandardMaterial } from 'three'
+import getKeyboardInput from '~/input/getKeyboardInput'
 import KeyboardInput from '~/input/KeyboardInput'
 import { materialLibrary } from '~/materials/library'
 import { Box2DPreviewMesh } from '~/meshes/Box2DPreviewMesh'
@@ -71,7 +72,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
       },
       () => {
         const keyboardMesh = new ProceduralKeyboardMesh()
-        const keyboardInput = new KeyboardInput()
+        const keyboardInput = getKeyboardInput()
         keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
         // keyboardMesh.scale.multiplyScalar(0.3)
         keyboardMesh.position.set(-0, 0.162, -0.1)

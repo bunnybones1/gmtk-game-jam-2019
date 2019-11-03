@@ -1,3 +1,8 @@
+export function cleanAnalogValue(val: number) {
+  const sign = Math.sign(val)
+  return Math.max(0, Math.abs(val) * 1.2 - 0.2) * sign
+}
+
 type CB = (val: number, timestamp: number) => void
 function updateVals(
   timeStamp: number,

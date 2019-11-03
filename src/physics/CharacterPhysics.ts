@@ -1,4 +1,4 @@
-import KeyboardInput from '~/input/KeyboardInput'
+import getKeyboardInput from '~/input/getKeyboardInput'
 import { __physicsScale } from '~/settings/physics'
 import { cleanRemoveFromArrayMap, pushToArrayMap } from '~/utils/arrayUtils'
 import { KeyboardCodes } from '~/utils/KeyboardCodes'
@@ -140,8 +140,7 @@ export default class CharacterPhysics {
     this.defaultBodyOffset = defaultBodyOffset
     this.sensorBodyContacts = CharacterPhysics.contactListener.contactPairs
 
-    const keyboardInput = new KeyboardInput()
-    keyboardInput.addListener(this.onKeyCodeEvent)
+    getKeyboardInput().addListener(this.onKeyCodeEvent)
   }
   onKeyCodeEvent = (code: KeyboardCodes, down: boolean) => {
     if (code === 'Space') {

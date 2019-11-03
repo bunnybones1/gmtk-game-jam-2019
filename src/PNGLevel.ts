@@ -128,7 +128,7 @@ export default class PNGLevel {
             build = true
             //log('next colour changes')
           }
-          if (opaque != nextOpaque) {
+          if (opaque !== nextOpaque) {
             build = true
             //log('next opaque changes')
           }

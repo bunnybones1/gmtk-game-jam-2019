@@ -2,9 +2,10 @@ import { Clock, Color, Vector3 } from 'three'
 
 import { simpleTweener } from './animation/tweeners'
 import { BaseTestScene } from './helpers/scenes/BaseTestScene'
-import TestGamePadScene from './helpers/scenes/TestGamePad'
+import TestCharacterControlScene from './helpers/scenes/TestCharacterControl'
 import TestGraphicsCharacterScene from './helpers/scenes/TestGraphicsCharacter'
 import TestGraphicsLevelScene from './helpers/scenes/TestGraphicsLevel'
+import TestKeyboardCharacterScene from './helpers/scenes/TestKeyboardCharacter'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
@@ -28,16 +29,17 @@ cameraShaker.camera.position.set(0, 0.5, 0.5)
 cameraShaker.camera.lookAt(new Vector3())
 
 const testClasses: { [K: string]: any } = {
-  lighting: TestLightingScene,
-  physics: TestPhysicsScene,
-  physicsPNG: TestPhysicsPNGScene,
-  physicsCharacter: TestPhysicsCharacterScene,
-  gamePad: TestGamePadScene,
-  keyboard: TestKeyboardInputScene,
+  characterControl: TestCharacterControlScene,
   graphicsLevel: TestGraphicsLevelScene,
   graphicsCharacter: TestGraphicsCharacterScene,
-  text: TestTextScene,
-  stencils: TestStencilsScene
+  keyboard: TestKeyboardInputScene,
+  keyboardCharacter: TestKeyboardCharacterScene,
+  lighting: TestLightingScene,
+  physics: TestPhysicsScene,
+  physicsCharacter: TestPhysicsCharacterScene,
+  physicsPNG: TestPhysicsPNGScene,
+  stencils: TestStencilsScene,
+  text: TestTextScene
 }
 
 let TestClass: new () => BaseTestScene = TestLightingScene

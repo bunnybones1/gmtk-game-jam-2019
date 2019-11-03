@@ -1,5 +1,5 @@
 import { WebGLRenderer } from 'three'
-import KeyboardInput from '~/input/KeyboardInput'
+import getKeyboardInput from '~/input/getKeyboardInput'
 
 import ProceduralKeyboardMesh from '../../meshes/ProceduralKeyboardMesh'
 
@@ -9,8 +9,7 @@ export default class TestKeyboardInputScene extends TestLightingScene {
   constructor() {
     super(false)
     const keyboardMesh = new ProceduralKeyboardMesh()
-    const keyboardInput = new KeyboardInput()
-    keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
+    getKeyboardInput().addListener(keyboardMesh.onKeyCodeEvent)
     this.scene.add(keyboardMesh)
   }
   update(dt: number) {

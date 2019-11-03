@@ -69,7 +69,9 @@ function maskPreRender(c: WebGLRenderingContext, b: WebGLStencilBuffer) {
   // c.stencilFuncSeparate(c.BACK, c.EQUAL, 2, 0xff)
   b.setFunc(c.ALWAYS, 2, 0xff)
 }
-function maskPostRender(c: WebGLRenderingContext, b: WebGLStencilBuffer) {}
+function maskPostRender(c: WebGLRenderingContext, b: WebGLStencilBuffer) {
+  //
+}
 
 function meshPreRender(c: WebGLRenderingContext, b: WebGLStencilBuffer) {
   // c.stencilFuncSeparate(c.BACK, c.EQUAL, 2, 0xff)

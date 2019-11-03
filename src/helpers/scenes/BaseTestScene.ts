@@ -12,6 +12,7 @@ import { getUrlColor } from '~/utils/location'
 const FOV = 35
 const MOBILE_FOV = 28
 export class BaseTestScene {
+  autoClear = true
   protected scene: Scene
   protected camera: Camera
   protected bgColor: Color
@@ -52,8 +53,10 @@ export class BaseTestScene {
   }
 
   render(renderer: WebGLRenderer, dt: number) {
-    renderer.setClearColor(this.bgColor, 1)
-    renderer.clear(true, true, true)
+    if (this.autoClear) {
+      renderer.setClearColor(this.bgColor, 1)
+      renderer.clear(true, true, true)
+    }
     renderer.render(this.scene, this.camera)
   }
 }
