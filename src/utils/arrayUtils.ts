@@ -122,3 +122,8 @@ export function findClosestNumberIndex(arr: number[], value: number): number {
   }
   return index
 }
+
+export function getArrWrap<T>(arr: T[], i: number) {
+  const t = arr.length
+  return arr[((i % t) + t) % t]
+}

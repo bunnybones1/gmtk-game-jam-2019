@@ -5,6 +5,7 @@ import { rigToGamePad } from '~/helpers/utils/gamePad'
 import { rigToKeyboard } from '~/input/getKeyboardInput'
 import { debugPolygonPhysics } from '~/meshes/Box2DPreviewMesh'
 import AvatarContactListener from '~/physics/AvatarContactListener'
+import makePolygonPhysics from '~/physics/makePolygonPhysics'
 import PhysicsCharacter from '~/physics/PhysicsCharacter'
 import { __physicsScale } from '~/settings/physics'
 
@@ -43,6 +44,8 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
     rigToKeyboard(keyboardAPI =>
       makeCharacter(new CharacterKeyboardController(keyboardAPI))
     )
+
+    makePolygonPhysics(this.myB2World)
   }
   update(dt: number) {
     super.update(dt) //does actual physics

@@ -14,6 +14,11 @@ export function clamp(val: number, min: number, max: number) {
   return Math.min(max, Math.max(min, val))
 }
 
+export function wrap(val: number, min: number, max: number) {
+  const range = max - min
+  return ((((val - min) % range) + range) % range) + min
+}
+
 export function absFloor(val: number) {
   return Math.floor(Math.abs(val)) * (val < 0 ? -1 : 1)
 }

@@ -1,3 +1,4 @@
+import { Vector2 } from 'three'
 import { __physicsScale, __pixelSizeMeters } from '~/settings/physics'
 import {
   BodyDef,
@@ -9,6 +10,9 @@ import {
   PolygonShape,
   World
 } from '~/vendor/Box2D/Box2D'
+
+import { addToArrayUnique, getArrWrap } from './arrayUtils'
+import { wrap } from './math'
 
 const offsetX = -16
 const offsetY = 8
@@ -144,4 +148,34 @@ export function makeBitMask(pbits: PBits[]) {
     bitMask |= Math.pow(2, pBitsArr.indexOf(pbit) + 1)
   }
   return bitMask
+}
+
+const __tempVec = new Vector2()
+export function deconstructConcavePath(verts: Vector2[]) {
+  const chunks: Vector2[][] = []
+  let chunk: Vector2[] = []
+  for (let i = 0; i < verts.length; i++) {
+    const a = getArrWrap(verts, i - 1)
+    const b = getArrWrap(verts, i)
+    const c = getArrWrap(verts, i + 1)
+    const angle = __tempVec.subVectors(a, b).angle()
+    const angle2 = __tempVec.subVectors(b, c).angle()
+    const delta = wrap(angle2 - angle, -Math.PI, Math.PI)
+    // console.log(angle.toFixed(2), angle2.toFixed(2), delta.toFixed(2))
+    if (delta >= 0) {
+      chunk.push(a, b, c)
+    } else {
+      // console.log('b', chunk.length)
+      chunks.push(chunk)
+      chunk = [b]
+    }
+  }
+  chunks.push(chunk)
+  return chunks.map(c => {
+    const cleaned: Vector2[] = []
+    for (const v of c) {
+      addToArrayUnique(cleaned, v)
+    }
+    return cleaned
+  })
 }
