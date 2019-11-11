@@ -11,6 +11,7 @@ export default class TestKeyboardInputScene extends TestLightingScene {
     const keyboardMesh = new ProceduralKeyboardMesh()
     getKeyboardInput().addListener(keyboardMesh.onKeyCodeEvent)
     this.scene.add(keyboardMesh)
+    keyboardMesh.scale.multiplyScalar(10)
   }
   update(dt: number) {
     super.update(dt)

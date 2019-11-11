@@ -20,15 +20,15 @@ export class BaseTestScene {
     const scene = new Scene()
 
     const bgColor: Color = getUrlColor('bgColor', new Color(0x6f84bc))
-    scene.fog = new Fog(bgColor.getHex(), 0, 6)
+    scene.fog = new Fog(bgColor.getHex(), 0, 60)
     scene.autoUpdate = false
     scene.matrixAutoUpdate = false
 
     const camera = new PerspectiveCamera(
       device.isMobile ? MOBILE_FOV : FOV,
       device.aspect,
-      0.01,
-      10
+      0.1,
+      100
     )
 
     device.onChange(() => {
@@ -37,7 +37,7 @@ export class BaseTestScene {
       camera.updateProjectionMatrix()
     }, true)
 
-    camera.position.set(0, 0.2, 0.4)
+    camera.position.set(0, 2, 4)
     camera.lookAt(0, 0, 0)
     camera.updateProjectionMatrix()
 

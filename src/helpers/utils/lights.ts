@@ -13,7 +13,7 @@ import { getUrlFlag } from '~/utils/location'
 const __defaultGroundColor = new Color(0x4f3f2f)
 const __defaultSkyColor = new Color(0xafbfef)
 
-const s = 1
+const s = 10
 
 const __defaultShadowBoxSize = new Vector3(0.8 * s, 0.2 * s, 0.6 * s)
 const __defaultShadowBoxCenter = new Vector3(0 * s, 0.05 * s, 0.04 * s)
@@ -31,16 +31,16 @@ export function addPrettyLights(scene: Scene, bgColor: Color) {
 
   sunLight.name = 'sunlight'
   sunLight.castShadow = true
-  sunLight.shadow.camera.near = 0.01
-  sunLight.shadow.camera.far = 1
-  sunLight.shadow.camera.left = -0.5
-  sunLight.shadow.camera.right = 0.5
-  sunLight.shadow.camera.top = -0.3
-  sunLight.shadow.camera.bottom = 0.3
+  sunLight.shadow.camera.near = 0.1
+  sunLight.shadow.camera.far = 10
+  sunLight.shadow.camera.left = -5
+  sunLight.shadow.camera.right = 5
+  sunLight.shadow.camera.top = -3
+  sunLight.shadow.camera.bottom = 3
   sunLight.shadow.camera.updateProjectionMatrix()
   sunLight.shadow.mapSize.width = sunLight.shadow.mapSize.height = 1024
 
-  const distance = 0.5
+  const distance = 5
   const angle = 0.6
   sunLight.position.set(
     Math.cos(angle) * distance,
@@ -101,7 +101,7 @@ export function addPrettyLights(scene: Scene, bgColor: Color) {
     // sunLightCamHelper.updateMatrixWorld(true)
   }
 
-  scene.fog = new Fog(bgColor.getHex(), 0, 3)
+  scene.fog = new Fog(bgColor.getHex(), 0, 30)
   return {
     sunLight,
     ambientLight

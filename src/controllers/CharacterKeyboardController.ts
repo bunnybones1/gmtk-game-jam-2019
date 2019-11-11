@@ -40,7 +40,7 @@ class VirtualAxis {
   }
 }
 
-export default class CharacterGamePadController
+export default class CharacterKeyboardController
   implements ICharacterController {
   get aimAngle() {
     return Math.atan2(this.aim.y, this.aim.x)

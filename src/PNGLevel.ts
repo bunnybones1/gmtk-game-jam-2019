@@ -68,7 +68,7 @@ export default class PNGLevel {
       height: number,
       colour: number
     ) => void,
-    onReady: () => void,
+    onReady?: () => void,
     onError?: () => void
   ) {
     const img = new Image()
@@ -150,7 +150,9 @@ export default class PNGLevel {
         }
       }
       blockRecipes.process(blockProcessor)
-      onReady()
+      if (onReady) {
+        onReady()
+      }
     }
     img.onerror = errorEvent => {
       console.error('image not found: ' + errorEvent)

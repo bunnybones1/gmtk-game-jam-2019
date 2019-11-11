@@ -22,6 +22,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
   protected checkpointBodies: Fixture[] = []
   constructor(defaultLevel = 'test-layout') {
     super(false, false)
+    // this.camera.position.y += 1.5
     const myB2World = new World(new Vec2(0, -9.8))
 
     this.myB2World = myB2World
@@ -38,7 +39,7 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
         const isSensor = colour === 0xffff00
         createPhysicBoxFromPixels(myB2World, x, y, width, height, isSensor)
 
-        const depth = (width + height) * 0.5 * __pixelSizeMeters
+        const depth = (width + height) * 0.5
         if (y + height >= 32) {
           height += 100
         }
@@ -48,21 +49,21 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
           getCachedChamferedBoxGeometry(
             width * __pixelSizeMeters,
             height * __pixelSizeMeters,
-            depth,
-            0.001
+            depth * __pixelSizeMeters,
+            0.01
           ),
           mat
         )
         mesh.receiveShadow = true
         mesh.castShadow = true
         mesh.position.set(
-          -0.2 + (x - width * 0.5) * __pixelSizeMeters,
-          0.2 - (y + height * 0.5) * __pixelSizeMeters,
+          -0.8 + (x - width * 0.5) * __pixelSizeMeters,
+          0.4 - (y + height * 0.5) * __pixelSizeMeters,
           0
         )
         this.scene.add(mesh)
 
-        const offset = depth * 0.5 + 0.01
+        const offset = (depth * 0.5 + 1) * __pixelSizeMeters
         if (colour === 0xffff00) {
           const copy = mesh.clone()
           copy.position.z -= offset
@@ -74,8 +75,8 @@ export default class TestGraphicsLevelScene extends TestLightingScene {
         const keyboardMesh = new ProceduralKeyboardMesh()
         const keyboardInput = getKeyboardInput()
         keyboardInput.addListener(keyboardMesh.onKeyCodeEvent)
-        // keyboardMesh.scale.multiplyScalar(0.3)
-        keyboardMesh.position.set(-0, 0.162, -0.1)
+        keyboardMesh.scale.multiplyScalar(5)
+        keyboardMesh.position.set(-0, 0, -0.5)
         this.scene.add(keyboardMesh)
         this.keyboardInput = keyboardInput
         this.keyboardMesh = keyboardMesh

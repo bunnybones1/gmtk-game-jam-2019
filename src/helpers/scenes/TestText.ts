@@ -14,16 +14,24 @@ export default class TestTextScene extends BaseTestScene {
       fps.toggle(true)
     }
 
-    this.scene.add(new TextMesh('Hello World!'))
+    const s = 10
+
+    const hello = new TextMesh('Hello World!')
+    hello.scale.multiplyScalar(s)
+    this.scene.add(hello)
+
     const title = new TextMesh('ANY KEY', textSettings.title)
+    title.scale.multiplyScalar(s)
     this.scene.add(title)
 
     const keys = new TextMesh('Q W E R T Y', textSettings.keyLabel)
-    keys.position.y = -0.04
+    keys.scale.multiplyScalar(s)
+    keys.position.y = -0.4
     this.scene.add(keys)
 
     const keys2 = new TextMesh('← ↑ → ↓ ⇧', textSettings.keyLabel)
-    keys2.position.y = -0.05
+    keys2.scale.multiplyScalar(s)
+    keys2.position.y = -0.5
     this.scene.add(keys2)
 
     const init = async () => {

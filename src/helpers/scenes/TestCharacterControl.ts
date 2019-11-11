@@ -1,13 +1,15 @@
+import { Vector2 } from 'three'
 import CharacterGamePadController from '~/controllers/CharacterGamePadController'
 import CharacterKeyboardController from '~/controllers/CharacterKeyboardController'
 import ICharacterController from '~/controllers/ICharacterController'
+import { makeWobblyCircleShapePath } from '~/factories/shapePaths'
 import { rigToGamePad } from '~/helpers/utils/gamePad'
 import { rigToKeyboard } from '~/input/getKeyboardInput'
 import { debugPolygonPhysics } from '~/meshes/Box2DPreviewMesh'
 import AvatarContactListener from '~/physics/AvatarContactListener'
 import makePolygonPhysics from '~/physics/makePolygonPhysics'
 import PhysicsCharacter from '~/physics/PhysicsCharacter'
-import { __physicsScale } from '~/settings/physics'
+import { BodyType } from '~/vendor/Box2D/Box2D'
 
 import TestPhysicsScene from './TestPhysics'
 
@@ -45,7 +47,19 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
       makeCharacter(new CharacterKeyboardController(keyboardAPI))
     )
 
-    makePolygonPhysics(this.myB2World)
+    const wobblyCircleVerts = makeWobblyCircleShapePath(0.1, 0.25, 40, 6)
+    makePolygonPhysics(
+      this.myB2World,
+      wobblyCircleVerts,
+      BodyType.staticBody,
+      new Vector2(-0.5, 0)
+    )
+    makePolygonPhysics(
+      this.myB2World,
+      wobblyCircleVerts,
+      BodyType.staticBody,
+      new Vector2(-1, 0)
+    )
   }
   update(dt: number) {
     super.update(dt) //does actual physics

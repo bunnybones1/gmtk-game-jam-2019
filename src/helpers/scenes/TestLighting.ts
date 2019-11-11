@@ -29,7 +29,7 @@ export default class TestLightingScene extends BaseTestScene {
       fps.toggle(true)
     }
     const init = async () => {
-      const unitSize = 0.06
+      const unitSize = 0.6
       const radius = unitSize * 0.5
       const basicMaterial = new MeshStandardMaterial({
         color: 0xaaddee,
@@ -40,6 +40,7 @@ export default class TestLightingScene extends BaseTestScene {
           new PlaneBufferGeometry(1, 1, 1, 1),
           basicMaterial
         )
+        floor.scale.multiplyScalar(10)
         floor.castShadow = false
         floor.receiveShadow = true
         this.scene.add(floor)

@@ -1,3 +1,4 @@
+import { Vector2 } from 'three'
 import ICharacterController from '~/controllers/ICharacterController'
 import { removeFromArray } from '~/utils/arrayUtils'
 import { createPhysicBox, makeBitMask } from '~/utils/physics'
@@ -20,18 +21,23 @@ import AvatarContactListener from './AvatarContactListener'
 const __rcOut = new RayCastOutput()
 const __rcIn = new RayCastInput()
 const __tempVec2 = { x: 0, y: 0 }
+const __defaultSize = new Vector2(0.1, 0.1)
 let __id = 0
 export default class PhysicsCharacter {
   // @ts-ignore
   private _id = __id++
   private _avatarBody: Body
+  get avatarBody() {
+    return this._avatarBody
+  }
   private _weaponBody: Body
   private _onSolidGrounds: Fixture[]
   private _velocity = { x: 0, y: 0 }
   constructor(
     private _b2World: World,
     contactListener: AvatarContactListener,
-    private _controller: ICharacterController
+    private _controller: ICharacterController,
+    public size = __defaultSize
   ) {
     const onSolidGrounds: Fixture[] = []
     _controller.jumpCheck = () => onSolidGrounds.length > 0
@@ -40,8 +46,8 @@ export default class PhysicsCharacter {
       _b2World,
       0,
       0,
-      0.01,
-      0.01,
+      size.x,
+      size.y,
       BodyType.kinematicBody,
       0,
       1,
@@ -56,8 +62,8 @@ export default class PhysicsCharacter {
       _b2World,
       0,
       0,
-      0.01,
-      0.002,
+      size.x,
+      size.y * 0.2,
       BodyType.kinematicBody,
       0,
       1,

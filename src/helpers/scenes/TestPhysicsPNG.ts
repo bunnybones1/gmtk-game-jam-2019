@@ -1,5 +1,4 @@
 import PNGLevel from '~/PNGLevel'
-import { __pixelSizeMeters, __pixelSizePhysics } from '~/settings/physics'
 import { getUrlParam } from '~/utils/location'
 import { createPhysicBoxFromPixels } from '~/utils/physics'
 

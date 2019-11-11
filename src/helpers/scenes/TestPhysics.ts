@@ -1,6 +1,5 @@
 import { WebGLRenderer } from 'three'
 import { Box2DPreviewMesh } from '~/meshes/Box2DPreviewMesh'
-import { __physicsScale } from '~/settings/physics'
 import { rand } from '~/utils/math'
 import { createPhysicBox, createPhysicsCircle } from '~/utils/physics'
 import { Body, Vec2, World } from '~/vendor/Box2D/Box2D'
@@ -23,18 +22,18 @@ export default class TestPhysicsScene extends BaseTestScene {
     for (let i = 0; i < totalEnemies; i++) {
       const circleBody = createPhysicsCircle(
         this.myB2World,
-        rand(-0.1, 0.1),
-        0.1 + rand(-0.02, 0.02),
-        0.005,
+        rand(-1, 1),
+        1 + rand(-0.2, 0.2),
+        0.05,
         enemiesSelfCollide
       )
       this.circleBodies.push(circleBody)
     }
 
     if (testBox) {
-      createPhysicBox(this.myB2World, 0, -0.03, 0.1, 0.01)
-      createPhysicBox(this.myB2World, 0.02, 0.03, 0.1, 0.01)
-      const ramp = createPhysicBox(this.myB2World, 0.08, 0, 0.1, 0.01)
+      createPhysicBox(this.myB2World, 0, -0.3, 1, 0.1)
+      createPhysicBox(this.myB2World, 0.2, 0.3, 1, 0.1)
+      const ramp = createPhysicBox(this.myB2World, 0.8, 0, 1, 0.1)
       ramp.SetAngle(Math.PI * 0.25)
     }
   }
@@ -46,10 +45,7 @@ export default class TestPhysicsScene extends BaseTestScene {
       const p = circleBody.GetPosition()
       if (p.y < -1) {
         circleBody.SetLinearVelocity(new Vec2(0.0, 0.0))
-        circleBody.SetPositionXY(
-          rand(-0.1, 0.1) * __physicsScale,
-          (0.1 + rand(-0.02, 0.02)) * __physicsScale
-        )
+        circleBody.SetPositionXY(rand(-1, 1), 1 + rand(-0.2, 0.2))
       }
     }
   }

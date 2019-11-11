@@ -98,6 +98,9 @@ export const cleanRemoveFromArrayMap = <T, T2>(
   }
 }
 
+function signMatches(val: number, val2: number) {
+  return val >= 0 === val2 >= 0
+}
 //binary search only works assuming numbers have been sorted from lowest to highest
 export function findClosestNumberIndex(arr: number[], value: number): number {
   const middleIndex = ~~(arr.length * 0.5)
@@ -105,14 +108,11 @@ export function findClosestNumberIndex(arr: number[], value: number): number {
   let index = middleIndex
   let oldSample = arr[index]
   let everTurned = false
-  function directionMatches(val: number, val2: number) {
-    return (val > 0 && val2 > 0) || (val < 0 && val2 < 0)
-  }
   let limit = 100
   while (step !== 0 && limit > 0) {
     index = clamp(index + step, 0, arr.length - 1)
     const newSample = arr[index]
-    if (!directionMatches(value - newSample, value - oldSample)) {
+    if (!signMatches(value - newSample, value - oldSample)) {
       step *= -1
       everTurned = true
     }
