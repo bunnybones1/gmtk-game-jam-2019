@@ -17,7 +17,8 @@ export default function makePolygonPhysics(
   world: World,
   verts: Vector2[],
   type: BodyType = BodyType.staticBody,
-  position = __origin
+  position = __origin,
+  deconstructConcavePathMethod = deconstructConcavePath
 ) {
   const bodyDef = new BodyDef()
   bodyDef.type = type
@@ -26,20 +27,11 @@ export default function makePolygonPhysics(
   verts.forEach(v =>
     createPhysicBox(world, v.x + position.x, v.y + position.y, 0.002, 0.002)
   )
-  const subVerts2 = deconstructConcavePath(verts)
+  const subVerts2 = deconstructConcavePathMethod(verts)
   for (const subVerts of subVerts2) {
     if (subVerts.length < 3) {
       continue
     }
-    // for (const v of subVerts) {
-    //   createPhysicBox(
-    //     world,
-    //     v.x / __physicsScale,
-    //     v.y / __physicsScale,
-    //     0.004,
-    //     0.004
-    //   )
-    // }
     const fixtureDef = new FixtureDef()
     const shape = new PolygonShape()
     shape.SetAsArray(subVerts)
@@ -47,11 +39,5 @@ export default function makePolygonPhysics(
     fixtureDef.filter.categoryBits = makeBitMask(['environment'])
     body.CreateFixture(fixtureDef)
   }
-  // shape.SetAsBox(
-  // 	0.01 * 0.5 * __physicsScale,
-  // 	0.01 * 0.5 * __physicsScale
-  // )
-
-  // body.SetPositionXY(x * __physicsScale, y * __physicsScale)
   return body
 }

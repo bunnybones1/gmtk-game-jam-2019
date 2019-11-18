@@ -127,3 +127,16 @@ export function getArrWrap<T>(arr: T[], i: number) {
   const t = arr.length
   return arr[((i % t) + t) % t]
 }
+
+export function getArrNext<T>(arr: T[], item: T) {
+  return getArrWrap(arr, arr.indexOf(item) + 1)
+}
+
+export function getArrPrev<T>(arr: T[], item: T) {
+  return getArrWrap(arr, arr.indexOf(item) - 1)
+}
+
+export function getArrAround<T>(arr: T[], item: T) {
+  const i = arr.indexOf(item)
+  return [getArrWrap(arr, i - 1), item, getArrWrap(arr, i + 1)]
+}

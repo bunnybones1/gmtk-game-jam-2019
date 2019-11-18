@@ -82,7 +82,7 @@ export default class PNGLevel {
       canvas.height = height
       const context = canvas.getContext('2d')!
       context.drawImage(img, 0, 0, width, height)
-      const data = context.getImageData(0, 0, canvas.width, canvas.height).data
+      const data = context.getImageData(0, 0, width, height).data
       let accumilator = 0
       const colour = new Color()
       const nextColour = new Color()

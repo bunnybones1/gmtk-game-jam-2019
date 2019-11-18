@@ -9,6 +9,11 @@ import { debugPolygonPhysics } from '~/meshes/Box2DPreviewMesh'
 import AvatarContactListener from '~/physics/AvatarContactListener'
 import makePolygonPhysics from '~/physics/makePolygonPhysics'
 import PhysicsCharacter from '~/physics/PhysicsCharacter'
+import {
+  createPhysicBox,
+  deconstructConcavePath2,
+  deconstructConcavePath3
+} from '~/utils/physics'
 import { BodyType } from '~/vendor/Box2D/Box2D'
 
 import TestPhysicsScene from './TestPhysics'
@@ -52,13 +57,21 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
       this.myB2World,
       wobblyCircleVerts,
       BodyType.staticBody,
-      new Vector2(-0.5, 0)
+      new Vector2(-0.5, 0),
+      deconstructConcavePath2
     )
+
+    const testShape = makeWobblyCircleShapePath(0.2, 0.125, 12, 3, 0.25)
+    const pos = new Vector2(-1, 0)
+    for (const v of testShape) {
+      createPhysicBox(this.myB2World, v.x + pos.x, v.y + pos.y, 0.04, 0.04)
+    }
     makePolygonPhysics(
       this.myB2World,
-      wobblyCircleVerts,
+      testShape,
       BodyType.staticBody,
-      new Vector2(-1, 0)
+      pos,
+      deconstructConcavePath3
     )
   }
   update(dt: number) {
