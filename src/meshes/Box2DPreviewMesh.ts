@@ -163,6 +163,7 @@ function createGeometry(
   }
 
   body = myB2World.m_bodyList
+  const aspectCorrectOffset = new Vec2(offset.x / device.aspect, offset.y)
   while (body) {
     let fixture = body.m_fixtureList
     while (fixture) {
@@ -171,7 +172,7 @@ function createGeometry(
       if (worldVerts) {
         if (offset.x !== 0 || offset.y !== 0) {
           for (const vert of worldVerts) {
-            vert.SelfSub(offset)
+            vert.SelfSub(aspectCorrectOffset)
           }
         }
 

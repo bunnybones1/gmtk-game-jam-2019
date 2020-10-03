@@ -19,3 +19,14 @@ The Boolean Variable:
                                                     \* navigating through ironic cringe code \*
             return somethingLikeThis.exe_
 
+
+Tutorial/Zeroth Room:
+    - first room is just the shimmering/sparking GOAL, while( Boolean = true), with the player just on a solo platform above a non-advancing pool of deadly static, with no other option other than to figure out they can jump and bump the boolean's state, clearing the level, or jump into the deadly static, restarting the level
+
+First Room:
+    - will feature a simple upwards platformer, the GOAL will now start sparking a little more violently, adding sparks and height to the deadly pool of static, the player is now given incentive to jump upwards towards the next GOAL and bump it's Boolean state to complete the level
+
+Second Room:
+    - will feature Boolean variables connected to level platforms/elements(?)
+
+

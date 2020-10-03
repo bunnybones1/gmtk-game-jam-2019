@@ -23,10 +23,12 @@ const __rcIn = new RayCastInput()
 const __tempVec2 = { x: 0, y: 0 }
 const __defaultSize = new Vector2(0.1, 0.1)
 let __id = 0
+const __weaponXOffset = 0.05
 export default class PhysicsCharacter {
   // @ts-ignore
   private _id = __id++
   private _avatarBody: Body
+  private _frontDirection: -1 | 1 = 1
   get avatarBody() {
     return this._avatarBody
   }
@@ -95,12 +97,12 @@ export default class PhysicsCharacter {
     this._weaponBody = weaponBody
     this._onSolidGrounds = onSolidGrounds
   }
-  postPhysicsUpdate() {
+  postPhysicsUpdate(dt: number) {
     const bp = this._avatarBody.GetPosition()
     this._velocity.x =
       this._controller.intent.x * (this._controller.running ? 2 : 1) +
-      this._b2World.m_gravity.x / 60
-    this._velocity.y += this._b2World.m_gravity.y / 60
+      this._b2World.m_gravity.x * dt
+    this._velocity.y += this._b2World.m_gravity.y * dt
     if (this._onSolidGrounds.length > 0 && this._velocity.y < 0) {
       __rcIn.p1.Set(bp.x, bp.y + 0.1)
       __rcIn.p2.Set(bp.x, bp.y - 0.2)
@@ -123,7 +125,22 @@ export default class PhysicsCharacter {
       this._avatarBody.SetPositionXY(bp.x, 0)
       this._velocity.y = 0
     }
-    this._weaponBody.SetPosition(this._avatarBody.GetPosition())
+
+    //console.log(this._controller.intent.x)
+
+    if (this._controller.intent.x == -1) {
+      this._frontDirection = -1
+    }
+    if (this._controller.intent.x == 1) {
+      this._frontDirection = 1
+    }
+
+    const weaponPos = this._avatarBody.GetPosition().Clone()
+    weaponPos.SelfAddXY(__weaponXOffset * this._frontDirection, 0)
+    this._weaponBody.SetPosition(weaponPos)
+
+    //this._weaponBody.SetPosition(this._avatarBody.GetPosition())
+
     this._weaponBody.SetAngle(this._controller.aimAngle)
     this._avatarBody.SetLinearVelocity(this._velocity)
     this._weaponBody.SetLinearVelocity(this._velocity)

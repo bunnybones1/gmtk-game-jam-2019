@@ -2,6 +2,7 @@ import { Vector2 } from 'three'
 import CharacterGamePadController from '~/controllers/CharacterGamePadController'
 import CharacterKeyboardController from '~/controllers/CharacterKeyboardController'
 import ICharacterController from '~/controllers/ICharacterController'
+import device from '~/device'
 import { makeWobblyCircleShapePath } from '~/factories/shapePaths'
 import { rigToGamePad } from '~/helpers/utils/gamePad'
 import { rigToKeyboard } from '~/input/getKeyboardInput'
@@ -14,14 +15,15 @@ import {
   deconstructConcavePath2,
   deconstructConcavePath3
 } from '~/utils/physics'
-import { BodyType } from '~/vendor/Box2D/Box2D'
+import { BodyType, Vec2 } from '~/vendor/Box2D/Box2D'
 
 import TestPhysicsScene from './TestPhysics'
 
 export default class TestCharacterControlScene extends TestPhysicsScene {
-  protected postUpdates: Array<() => void> = []
+  protected postUpdates: Array<(dt: number) => void> = []
+  private firstCharacter: PhysicsCharacter | undefined
   constructor() {
-    super(true, 20, false)
+    super(false, 20, false)
 
     //temporary, so we don't need graphics
     debugPolygonPhysics.value = true
@@ -36,6 +38,9 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
         controller
       )
       this.postUpdates.push(pChar.postPhysicsUpdate.bind(pChar))
+      if (!this.firstCharacter) {
+        this.firstCharacter = pChar
+      }
     }
 
     rigToGamePad(gamePadAPI =>
@@ -52,6 +57,22 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
       makeCharacter(new CharacterKeyboardController(keyboardAPI))
     )
 
+    for (let i = 0; i < 10; i++) {
+      createPhysicBox(this.myB2World, i - 5, -0.3, 0.5, 0.1)
+    }
+
+    //for (let i = 0; i < totalEnemies; i++) {
+    //  const circleBody = createPhysicsCircle(
+    //    this.myB2World,
+    //    rand(-1, 1),
+    //    1 + rand(-0.2, 0.2),
+    //    0.05,
+    //    enemiesSelfCollide
+    //  )
+    //  this.circleBodies.push(circleBody)
+    //}
+
+    /*
     const wobblyCircleVerts = makeWobblyCircleShapePath(0.1, 0.25, 40, 6)
     makePolygonPhysics(
       this.myB2World,
@@ -73,11 +94,16 @@ export default class TestCharacterControlScene extends TestPhysicsScene {
       pos,
       deconstructConcavePath3
     )
+    */
   }
+
   update(dt: number) {
+    if (this.firstCharacter) {
+      this.b2Preview.offset.Copy(this.firstCharacter.avatarBody.GetPosition())
+    }
     super.update(dt) //does actual physics
     for (const pu of this.postUpdates) {
-      pu()
+      pu(dt)
     }
   }
 }
