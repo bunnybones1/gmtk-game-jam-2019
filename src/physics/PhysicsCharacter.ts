@@ -128,10 +128,9 @@ export default class PhysicsCharacter {
 
     //console.log(this._controller.intent.x)
 
-    if (this._controller.intent.x == -1) {
+    if (this._controller.intent.x < 0) {
       this._frontDirection = -1
-    }
-    if (this._controller.intent.x == 1) {
+    } else if (this._controller.intent.x > 0) {
       this._frontDirection = 1
     }
 
