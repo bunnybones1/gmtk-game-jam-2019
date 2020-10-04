@@ -73,13 +73,20 @@ const keyLabelSmall: TextSettings = {
   fontFace: fontFaces.GothicA1Bold,
   size: 10
 }
+const code: TextSettings = {
+  ...generic,
+  align: 'left',
+  fontFace: fontFaces.CourierPrimeRegular,
+  size: 32
+}
 
 export const textSettings = {
   generic,
   title,
   keyLabel,
   keyLabelDouble,
-  keyLabelSmall
+  keyLabelSmall,
+  code
 }
 
 //// Test live changing of fontfaces

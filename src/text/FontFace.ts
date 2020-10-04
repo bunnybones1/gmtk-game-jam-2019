@@ -27,6 +27,8 @@ export default class FontFace {
 }
 
 export const fontFaces = {
+  CourierPrimeRegular: new FontFace('CourierPrime-Regular'),
+  CourierPrimeBold: new FontFace('CourierPrime-Bold'),
   GothicA1Black: new FontFace('GothicA1-Black'),
   GothicA1Bold: new FontFace('GothicA1-Bold'),
   GothicA1ExtraBold: new FontFace('GothicA1-ExtraBold'),

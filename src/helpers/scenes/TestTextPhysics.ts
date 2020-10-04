@@ -16,23 +16,22 @@ export default class TestTextPhysicsScene extends TestPhysicsScene {
 
     const s = 10
 
-    const hello = new TextMesh('Hello World!')
-    hello.scale.multiplyScalar(s)
-    this.scene.add(hello)
-
-    const title = new TextMesh('ANY KEY', textSettings.title)
-    title.scale.multiplyScalar(s)
-    this.scene.add(title)
-
-    const keys = new TextMesh('Q W E R T Y', textSettings.keyLabel)
-    keys.scale.multiplyScalar(s)
-    keys.position.y = -0.4
-    this.scene.add(keys)
-
-    const keys2 = new TextMesh('← ↑ → ↓ ⇧', textSettings.keyLabel)
-    keys2.scale.multiplyScalar(s)
-    keys2.position.y = -0.5
-    this.scene.add(keys2)
+    const testCode = new TextMesh(
+      [
+        '/**',
+        '* For the brave souls who get this far: You are the chosen ones,',
+        '* the valiant knights of programming who toil away, without rest,',
+        '* fixing our most awful code. To you, true saviors, kings of men,',
+        '* I say this: never gonna give you up, never gonna let you down,',
+        '* never gonna run around and desert you. Never gonna make you cry,',
+        '* never gonna say goodbye. Never gonna tell a lie and hurt you.',
+        '*/'
+      ].join('\n'),
+      textSettings.code
+    )
+    testCode.scale.multiplyScalar(s)
+    testCode.position.x -= 2
+    this.scene.add(testCode)
 
     const init = async () => {
       //
