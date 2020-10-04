@@ -88,12 +88,3 @@ export const textSettings = {
   keyLabelSmall,
   code
 }
-
-//// Test live changing of fontfaces
-// setInterval(() => {
-//   for (const key in textOptions) {
-//     if (textOptions.hasOwnProperty(key)) {
-//       textOptions[key].fontFace = getRandomProperty(fontFaces)
-//     }
-//   }
-// }, 1500)
