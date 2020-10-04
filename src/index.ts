@@ -9,6 +9,7 @@ import TestKeyboardCharacterScene from './helpers/scenes/TestKeyboardCharacter'
 import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
+import TestTextPhysicsScene from './helpers/scenes/TestTextPhysics'
 import TestPhysicsCharacterScene from './helpers/scenes/TestPhysicsCharacter'
 import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
 import TestStencilsScene from './helpers/scenes/TestStencils'
@@ -36,6 +37,7 @@ const testClasses: { [K: string]: any } = {
   keyboardCharacter: TestKeyboardCharacterScene,
   lighting: TestLightingScene,
   physics: TestPhysicsScene,
+  textPhysics: TestTextPhysicsScene,
   physicsCharacter: TestPhysicsCharacterScene,
   physicsPNG: TestPhysicsPNGScene,
   stencils: TestStencilsScene,
