@@ -3,6 +3,7 @@ import { Clock, Color, Vector3 } from 'three'
 import { simpleTweener } from './animation/tweeners'
 import { BaseTestScene } from './helpers/scenes/BaseTestScene'
 import TestCharacterControlScene from './helpers/scenes/TestCharacterControl'
+import TestCharacterControlOnTextScene from './helpers/scenes/TestCharacterControlOnText'
 import TestGraphicsCharacterScene from './helpers/scenes/TestGraphicsCharacter'
 import TestGraphicsLevelScene from './helpers/scenes/TestGraphicsLevel'
 import TestKeyboardCharacterScene from './helpers/scenes/TestKeyboardCharacter'
@@ -10,6 +11,7 @@ import TestKeyboardInputScene from './helpers/scenes/TestKeyboardInput'
 import TestLightingScene from './helpers/scenes/TestLighting'
 import TestPhysicsScene from './helpers/scenes/TestPhysics'
 import TestPhysicsCharacterScene from './helpers/scenes/TestPhysicsCharacter'
+import TestPhysicsConcaveBodiesScene from './helpers/scenes/TestPhysicsConcaveBodies'
 import TestPhysicsPNGScene from './helpers/scenes/TestPhysicsPNG'
 import TestStencilsScene from './helpers/scenes/TestStencils'
 import TestTextScene from './helpers/scenes/TestText'
@@ -31,6 +33,7 @@ cameraShaker.camera.lookAt(new Vector3())
 
 const testClasses: { [K: string]: any } = {
   characterControl: TestCharacterControlScene,
+  characterControlOnText: TestCharacterControlOnTextScene,
   graphicsLevel: TestGraphicsLevelScene,
   graphicsCharacter: TestGraphicsCharacterScene,
   keyboard: TestKeyboardInputScene,
@@ -38,6 +41,7 @@ const testClasses: { [K: string]: any } = {
   lighting: TestLightingScene,
   physics: TestPhysicsScene,
   textPhysics: TestTextPhysicsScene,
+  physicsConcave: TestPhysicsConcaveBodiesScene,
   physicsCharacter: TestPhysicsCharacterScene,
   physicsPNG: TestPhysicsPNGScene,
   stencils: TestStencilsScene,
@@ -49,6 +53,7 @@ const testParam = getUrlParam('test') || 'graphicsCharacter'
 if (testClasses.hasOwnProperty(testParam)) {
   TestClass = testClasses[testParam]
 }
+
 const test: BaseTestScene = new TestClass()
 
 const loop = () => {

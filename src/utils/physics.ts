@@ -1,6 +1,8 @@
-import { Vector2 } from 'three'
+import { BufferGeometry, Vector2 } from 'three'
 import { __pixelSizeMeters } from '~/settings/physics'
+import TextMesh from '~/text/TextMesh'
 import {
+  Body,
   BodyDef,
   BodyType,
   CircleShape,
@@ -238,11 +240,11 @@ class Edge {
 export function deconstructConcavePath3(verts: Vector2[]) {
   const loops = deconstructConcavePath2(verts)
   console.warn('Not done yet.')
-  const angleLoops: AngledVec2[][] = loops.map(verts => {
-    return verts.map(v => {
-      return updateAngle(new AngledVec2(v, 0), verts)
-    })
-  })
+  // const angleLoops: AngledVec2[][] = loops.map(verts => {
+  //   return verts.map(v => {
+  //     return updateAngle(new AngledVec2(v, 0), verts)
+  //   })
+  // })
   const edges = new Map<string, Edge>()
   function findOrSet(id: string, edge: Edge) {
     if (edges.has(id)) {
@@ -269,4 +271,35 @@ export function deconstructConcavePath3(verts: Vector2[]) {
     }
   }
   return loops
+}
+
+const TEXT_PHYSICS_SCALE = 10
+
+export function textToPhysicsBodies(mesh: TextMesh, world: World) {
+  const bodies: Body[] = []
+  if (mesh.geometry instanceof BufferGeometry) {
+    const verts = mesh.geometry.attributes.position.array
+    const leap = mesh.geometry.attributes.position.itemSize * 4
+    const pos = mesh.position
+    for (let i = 0; i < verts.length; i += leap) {
+      const l = verts[i + 0]
+      const r = verts[i + 4]
+      const t = verts[i + 1]
+      const b = verts[i + 3]
+      const bx: number = (l + r) / 2 + pos.x * __pixelSizeMeters
+      const by: number = (t + b) / 2 + pos.y * __pixelSizeMeters
+      const bwidth: number = r - l
+      const bheight: number = t - b
+
+      const body = createPhysicBox(
+        world,
+        bx * TEXT_PHYSICS_SCALE,
+        by * TEXT_PHYSICS_SCALE,
+        bwidth * TEXT_PHYSICS_SCALE,
+        bheight * TEXT_PHYSICS_SCALE
+      )
+      bodies.push(body)
+    }
+  }
+  return bodies
 }

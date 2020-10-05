@@ -1,16 +1,14 @@
-import { BufferGeometry, PerspectiveCamera, WebGLRenderer } from 'three'
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import { __pixelSizeMeters } from '~/settings/physics'
 import { fontFaces } from '~/text/FontFace'
 import TextMesh from '~/text/TextMesh'
 import { textSettings } from '~/text/TextSettings'
 import { FPSControls } from '~/utils/fpsControls'
 import { getUrlFlag } from '~/utils/location'
-import { createPhysicBox } from '~/utils/physics'
-import { Body, Fixture, Vec2, World } from '~/vendor/Box2D/Box2D'
+import { textToPhysicsBodies } from '~/utils/physics'
+import { Body, World } from '~/vendor/Box2D/Box2D'
 
 import TestPhysicsScene from './TestPhysics'
-
-const SCALE = 10
 
 export default class TestTextPhysicsScene extends TestPhysicsScene {
   constructor() {
@@ -20,38 +18,7 @@ export default class TestTextPhysicsScene extends TestPhysicsScene {
       fps.toggle(true)
     }
 
-    let lastKnownTextBodies: Body[] | undefined
-
-    const s = 10
-
-    const testCode = new TextMesh(
-      [
-        '/**',
-        '* For the brave souls who get this far: You are the chosen ones,',
-        '* the valiant knights of programming who toil away, without rest,',
-        '* fixing our most awful code. To you, true saviors, kings of men,',
-        '* I say this: never gonna give you up, never gonna let you down,',
-        '* never gonna run around and desert you. Never gonna make you cry,',
-        '* never gonna say goodbye. Never gonna tell a lie and hurt you.',
-        '*/'
-      ].join('\n'),
-      textSettings.code,
-      undefined,
-      undefined
-    )
-    testCode.scale.multiplyScalar(s)
-    testCode.position.x -= 2
-    this.scene.add(testCode)
-
-    testCode.onMeasurementsUpdated = () => {
-      if (lastKnownTextBodies) {
-        for (const body of lastKnownTextBodies) {
-          this.myB2World.DestroyBody(body)
-        }
-        lastKnownTextBodies = undefined
-      }
-      lastKnownTextBodies = textToPhysicsBodies(testCode, this.myB2World)
-    }
+    const testCode = runTextPhysicsTest(this.scene, this.myB2World)
 
     setTimeout(() => {
       testCode.settings.fontFace = fontFaces.GothicA1Black
@@ -70,31 +37,38 @@ export default class TestTextPhysicsScene extends TestPhysicsScene {
   }
 }
 
-export function textToPhysicsBodies(mesh: TextMesh, world: World) {
-  const bodies: Body[] = []
-  if (mesh.geometry instanceof BufferGeometry) {
-    const verts = mesh.geometry.attributes.position.array
-    const leap = mesh.geometry.attributes.position.itemSize * 4
-    const pos = mesh.position
-    for (let i = 0; i < verts.length; i += leap) {
-      const l = verts[i + 0]
-      const r = verts[i + 4]
-      const t = verts[i + 1]
-      const b = verts[i + 3]
-      const bx: number = (l + r) / 2 + pos.x * __pixelSizeMeters
-      const by: number = (t + b) / 2 + pos.y * __pixelSizeMeters
-      const bwidth: number = r - l
-      const bheight: number = t - b
+export function runTextPhysicsTest(scene: Scene, b2World: World) {
+  let lastKnownTextBodies: Body[] | undefined
 
-      const body = createPhysicBox(
-        world,
-        bx * SCALE,
-        by * SCALE,
-        bwidth * SCALE,
-        bheight * SCALE
-      )
-      bodies.push(body)
+  const s = 10
+
+  const testCode = new TextMesh(
+    [
+      '/**',
+      '* For the brave souls who get this far: You are the chosen ones,',
+      '* the valiant knights of programming who toil away, without rest,',
+      '* fixing our most awful code. To you, true saviors, kings of men,',
+      '* I say this: never gonna give you up, never gonna let you down,',
+      '* never gonna run around and desert you. Never gonna make you cry,',
+      '* never gonna say goodbye. Never gonna tell a lie and hurt you.',
+      '*/'
+    ].join('\n'),
+    textSettings.code,
+    undefined,
+    undefined
+  )
+  testCode.scale.multiplyScalar(s)
+  testCode.position.x -= 2
+  scene.add(testCode)
+
+  testCode.onMeasurementsUpdated = () => {
+    if (lastKnownTextBodies) {
+      for (const body of lastKnownTextBodies) {
+        b2World.DestroyBody(body)
+      }
+      lastKnownTextBodies = undefined
     }
+    lastKnownTextBodies = textToPhysicsBodies(testCode, b2World)
   }
-  return bodies
+  return testCode
 }
