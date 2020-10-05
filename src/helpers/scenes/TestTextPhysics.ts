@@ -58,6 +58,7 @@ export function runTextPhysicsTest(scene: Scene, b2World: World) {
     undefined
   )
   testCode.scale.multiplyScalar(s)
+  testCode.position.z -= 6
   testCode.position.x -= 2
   scene.add(testCode)
 

@@ -37,7 +37,7 @@ export class BaseTestScene {
       camera.updateProjectionMatrix()
     }, true)
 
-    camera.position.set(0, 2, 4)
+    camera.position.set(0, 0, 0)
     camera.lookAt(0, 0, 0)
     camera.updateProjectionMatrix()
 

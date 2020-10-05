@@ -33,7 +33,7 @@ export default class TestPhysicsScene extends BaseTestScene {
     if (testBox) {
       createPhysicBox(this.myB2World, 0, -0.3, 1, 0.1)
       createPhysicBox(this.myB2World, 0.2, 0.3, 1, 0.1)
-      const ramp = createPhysicBox(this.myB2World, 0.8, 0, 1, 0.1)
+      const ramp = createPhysicBox(this.myB2World, 1.8, 0, 1, 0.1)
       ramp.SetAngle(Math.PI * 0.25)
     }
   }

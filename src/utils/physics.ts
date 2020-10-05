@@ -273,7 +273,9 @@ export function deconstructConcavePath3(verts: Vector2[]) {
   return loops
 }
 
-const TEXT_PHYSICS_SCALE = 10
+const VERTICAL_TEXT_PHYSICS_SCALE = 6.5
+const HORIZONTAL_TEXT_PHYSICS_SCALE = 5.275
+const HORIZONTAL_TRANSLATION = -0.1
 
 export function textToPhysicsBodies(mesh: TextMesh, world: World) {
   const bodies: Body[] = []
@@ -286,17 +288,17 @@ export function textToPhysicsBodies(mesh: TextMesh, world: World) {
       const r = verts[i + 4]
       const t = verts[i + 1]
       const b = verts[i + 3]
-      const bx: number = (l + r) / 2 + pos.x * __pixelSizeMeters
+      const bx: number = (l + r) / 2 + pos.x * __pixelSizeMeters + HORIZONTAL_TRANSLATION
       const by: number = (t + b) / 2 + pos.y * __pixelSizeMeters
       const bwidth: number = r - l
       const bheight: number = t - b
 
       const body = createPhysicBox(
         world,
-        bx * TEXT_PHYSICS_SCALE,
-        by * TEXT_PHYSICS_SCALE,
-        bwidth * TEXT_PHYSICS_SCALE,
-        bheight * TEXT_PHYSICS_SCALE
+        bx * HORIZONTAL_TEXT_PHYSICS_SCALE,
+        by * HORIZONTAL_TEXT_PHYSICS_SCALE,
+        bwidth * HORIZONTAL_TEXT_PHYSICS_SCALE,
+        bheight * VERTICAL_TEXT_PHYSICS_SCALE
       )
       bodies.push(body)
     }
