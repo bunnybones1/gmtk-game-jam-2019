@@ -31,6 +31,6 @@ export default class Character {
     const char = this._physics
     const pos = char.avatarBody.GetPosition()
     this.visuals.position.set(pos.x, pos.y, 0)
-    char.postPhysicsUpdate()
+    char.postPhysicsUpdate(dt)
   }
 }
