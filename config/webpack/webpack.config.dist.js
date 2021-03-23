@@ -13,7 +13,7 @@ module.exports = {
   context: process.cwd(), // to automatically find tsconfig.json
   target: 'web',
   entry: {
-    main: './src/index.ts'
+    main: './src/client.ts'
   },
   output: {
     path: path.join(process.cwd(), 'dist'),

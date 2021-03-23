@@ -13,7 +13,7 @@ const appConfig = require(`../game.${dist}.json`)
 const main = [
   'webpack-dev-server/client?http://0.0.0.0:8001',
   'webpack/hot/only-dev-server',
-  './src/index.ts'
+  './src/client.ts'
 ]
 
 module.exports = dist => ({

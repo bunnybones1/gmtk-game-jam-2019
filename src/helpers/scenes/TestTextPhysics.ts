@@ -20,9 +20,9 @@ export default class TestTextPhysicsScene extends TestPhysicsScene {
 
     const testCode = runTextPhysicsTest(this.scene, this.myB2World)
 
-    setTimeout(() => {
-      testCode.settings.fontFace = fontFaces.GothicA1Black
-    }, 2000)
+    // setTimeout(() => {
+    //   testCode.settings.fontFace = fontFaces.GothicA1Black
+    // }, 2000)
 
     const init = async () => {
       //
